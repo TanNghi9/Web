@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VietTravel - Khám Phá Việt Nam Tươi Đẹp</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="container">
+          <div class="logo">
+            <h1>🌏 VietTravel</h1>
+          </div>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="active">Trang chủ</a></li>
+            <li><a href="tours.html">Tours</a></li>
+            <li><a href="destinations.html">Điểm đến</a></li>
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+          <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h2 class="hero-title">Khám Phá Vẻ Đẹp Việt Nam</h2>
+        <p class="hero-subtitle">
+          Trải nghiệm những chuyến du lịch tuyệt vời cùng VietTravel
+        </p>
+        <a href="tours.html" class="btn btn-primary">Xem Tours</a>
+      </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-box">
+          <h3>Tìm kiếm tour du lịch</h3>
+          <form class="search-form" id="searchForm">
+            <div class="form-group">
+              <label for="destination">Điểm đến</label>
+              <select id="destination" name="destination">
+                <option value="">Chọn điểm đến</option>
+                <option value="hanoi">Hà Nội</option>
+                <option value="halongbay">Vịnh Hạ Long</option>
+                <option value="sapa">Sa Pa</option>
+                <option value="danang">Đà Nẵng</option>
+                <option value="hoian">Hội An</option>
+                <option value="nhatrang">Nha Trang</option>
+                <option value="dalat">Đà Lạt</option>
+                <option value="phuquoc">Phú Quốc</option>
+                <option value="saigon">TP. Hồ Chí Minh</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tourType">Loại tour</label>
+              <select id="tourType" name="tourType">
+                <option value="">Tất cả</option>
+                <option value="beach">Biển đảo</option>
+                <option value="mountain">Núi non</option>
+                <option value="city">Thành phố</option>
+                <option value="culture">Văn hóa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="duration">Thời gian</label>
+              <select id="duration" name="duration">
+                <option value="">Chọn thời gian</option>
+                <option value="1-3">1-3 ngày</option>
+                <option value="4-7">4-7 ngày</option>
+                <option value="7+">Trên 7 ngày</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-search">Tìm kiếm</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Tours -->
+    <section class="featured-tours">
+      <div class="container">
+        <div class="section-header">
+          <h2>Tours Nổi Bật</h2>
+          <p>Những tour du lịch được yêu thích nhất</p>
+        </div>
+        <div class="tours-grid">
+          <!-- Tour 1 -->
+          <div class="tour-card">
+            <div class="tour-image">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"halong-bay.jpg" alt="Vịnh Hạ Long" />
+              <span class="tour-badge">Nổi bật</span>
+            </div>
+            <div class="tour-content">
+              <h3>Vịnh Hạ Long - Du Thuyền 2N1Đ</h3>
+              <div class="tour-info">
+                <span class="tour-duration">⏱️ 2 ngày 1 đêm</span>
+                <span class="tour-location">📍 Quảng Ninh</span>
+              </div>
+              <p class="tour-description">
+                Khám phá kỳ quan thiên nhiên thế giới với du thuyền sang trọng,
+                tham quan động Thiên Cung, làng chài...
+              </p>
+              <div class="tour-footer">
+                <div class="tour-price">
+                  <span class="price-label">Từ</span>
+                  <span class="price-value">2.500.000đ</span>
+                </div>
+                <a href="tour-detail.html?id=1" class="btn btn-small"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 2 -->
+          <div class="tour-card">
+            <div class="tour-image">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"sapa.jpg" alt="Sa Pa" />
+              <span class="tour-badge hot">Hot</span>
+            </div>
+            <div class="tour-content">
+              <h3>Sa Pa - Fansipan 3N2Đ</h3>
+              <div class="tour-info">
+                <span class="tour-duration">⏱️ 3 ngày 2 đêm</span>
+                <span class="tour-location">📍 Lào Cai</span>
+              </div>
+              <p class="tour-description">
+                Chinh phục nóc nhà Đông Dương, khám phá bản làng dân tộc, thưởng
+                thức ẩm thực núi rừng...
+              </p>
+              <div class="tour-footer">
+                <div class="tour-price">
+                  <span class="price-label">Từ</span>
+                  <span class="price-value">3.200.000đ</span>
+                </div>
+                <a href="tour-detail.html?id=2" class="btn btn-small"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 3 -->
+          <div class="tour-card">
+            <div class="tour-image">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"danang.jpg" alt="Đà Nẵng" />
+            </div>
+            <div class="tour-content">
+              <h3>Đà Nẵng - Hội An - Bà Nà 4N3Đ</h3>
+              <div class="tour-info">
+                <span class="tour-duration">⏱️ 4 ngày 3 đêm</span>
+                <span class="tour-location">📍 Đà Nẵng</span>
+              </div>
+              <p class="tour-description">
+                Tham quan Cầu Vàng, phố cổ Hội An, tắm biển Mỹ Khê, check-in Bà
+                Nà Hills...
+              </p>
+              <div class="tour-footer">
+                <div class="tour-price">
+                  <span class="price-label">Từ</span>
+                  <span class="price-value">4.500.000đ</span>
+                </div>
+                <a href="tour-detail.html?id=3" class="btn btn-small"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 4 -->
+          <div class="tour-card">
+            <div class="tour-image">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"phuquoc.jpg" alt="Phú Quốc" />
+              <span class="tour-badge">Khuyến mãi</span>
+            </div>
+            <div class="tour-content">
+              <h3>Phú Quốc - Đảo Ngọc 4N3Đ</h3>
+              <div class="tour-info">
+                <span class="tour-duration">⏱️ 4 ngày 3 đêm</span>
+                <span class="tour-location">📍 Kiên Giang</span>
+              </div>
+              <p class="tour-description">
+                Nghỉ dưỡng tại đảo ngọc, tham quan VinWonders, lặn ngắm san hô,
+                câu cá...
+              </p>
+              <div class="tour-footer">
+                <div class="tour-price">
+                  <span class="price-label">Từ</span>
+                  <span class="price-value">5.800.000đ</span>
+                </div>
+                <a href="tour-detail.html?id=4" class="btn btn-small"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 5 -->
+          <div class="tour-card">
+            <div class="tour-image">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"nhatrang.jpg" alt="Nha Trang" />
+            </div>
+            <div class="tour-content">
+              <h3>Nha Trang - Vinpearl 3N2Đ</h3>
+              <div class="tour-info">
+                <span class="tour-duration">⏱️ 3 ngày 2 đêm</span>
+                <span class="tour-location">📍 Khánh Hòa</span>
+              </div>
+              <p class="tour-description">
+                Tắm biển, tham quan đảo, vui chơi tại VinWonders, tắm bùn khoáng
+                nóng...
+              </p>
+              <div class="tour-footer">
+                <div class="tour-price">
+                  <span class="price-label">Từ</span>
+                  <span class="price-value">3.800.000đ</span>
+                </div>
+                <a href="tour-detail.html?id=5" class="btn btn-small"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 6 -->
+          <div class="tour-card">
+            <div class="tour-image">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"dalat.jpg" alt="Đà Lạt" />
+            </div>
+            <div class="tour-content">
+              <h3>Đà Lạt - Thành Phố Ngàn Hoa 3N2Đ</h3>
+              <div class="tour-info">
+                <span class="tour-duration">⏱️ 3 ngày 2 đêm</span>
+                <span class="tour-location">📍 Lâm Đồng</span>
+              </div>
+              <p class="tour-description">
+                Khám phá thành phố sương mù, tham quan thác Datanla, Crazy
+                House, làng cù lần...
+              </p>
+              <div class="tour-footer">
+                <div class="tour-price">
+                  <span class="price-label">Từ</span>
+                  <span class="price-value">3.500.000đ</span>
+                </div>
+                <a href="tour-detail.html?id=6" class="btn btn-small"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-us">
+      <div class="container">
+        <div class="section-header">
+          <h2>Tại Sao Chọn VietTravel?</h2>
+          <p>Chúng tôi cam kết mang đến trải nghiệm tốt nhất</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>Giá Tốt Nhất</h3>
+            <p>
+              Cam kết giá tour cạnh tranh nhất thị trường với nhiều ưu đãi hấp
+              dẫn
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Đa Dạng Tours</h3>
+            <p>Hơn 500+ tour trong nước và quốc tế phù hợp với mọi nhu cầu</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👨‍✈️</div>
+            <h3>HDV Chuyên Nghiệp</h3>
+            <p>Đội ngũ hướng dẫn viên nhiệt tình, giàu kinh nghiệm</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⭐</div>
+            <h3>Chất Lượng Đảm Bảo</h3>
+            <p>Dịch vụ 5 sao với hơn 10.000 khách hàng hài lòng</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="popular-destinations">
+      <div class="container">
+        <div class="section-header">
+          <h2>Điểm Đến Phổ Biến</h2>
+          <p>Khám phá những địa điểm được yêu thích nhất</p>
+        </div>
+        <div class="destinations-grid">
+          <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"dest-hanoi.jpg" alt="Hà Nội" />
+            <div class="destination-overlay">
+              <h3>Hà Nội</h3>
+              <p>15 tours</p>
+            </div>
+          </div>
+          <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"dest-hoian.jpg" alt="Hội An" />
+            <div class="destination-overlay">
+              <h3>Hội An</h3>
+              <p>12 tours</p>
+            </div>
+          </div>
+          <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"dest-nhatrang.jpg" alt="Nha Trang" />
+            <div class="destination-overlay">
+              <h3>Nha Trang</h3>
+              <p>18 tours</p>
+            </div>
+          </div>
+          <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"dest-phuquoc.jpg" alt="Phú Quốc" />
+            <div class="destination-overlay">
+              <h3>Phú Quốc</h3>
+              <p>10 tours</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <h2>Khách Hàng Nói Gì?</h2>
+          <p>Đánh giá từ những khách hàng đã trải nghiệm</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="testimonial-text">
+              "Chuyến đi Hạ Long thật tuyệt vời! HDV nhiệt tình, du thuyền sang
+              trọng. Gia đình tôi rất hài lòng."
+            </p>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"avatar1.jpg" alt="Nguyễn Văn A" />
+              <div>
+                <h4>Nguyễn Văn A</h4>
+                <p>Tour Hạ Long 2N1Đ</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="testimonial-text">
+              "Sa Pa đẹp không thể tả! Cảm ơn VietTravel đã tổ chức chuyến đi ý
+              nghĩa này."
+            </p>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"avatar2.jpg" alt="Trần Thị B" />
+              <div>
+                <h4>Trần Thị B</h4>
+                <p>Tour Sa Pa 3N2Đ</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="testimonial-text">
+              "Dịch vụ tuyệt vời, giá cả hợp lý. Chắc chắn sẽ quay lại
+              VietTravel cho các chuyến du lịch sau."
+            </p>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"avatar3.jpg" alt="Lê Văn C" />
+              <div>
+                <h4>Lê Văn C</h4>
+                <p>Tour Đà Nẵng 4N3Đ</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <div class="container">
+        <div class="newsletter-content">
+          <h2>Đăng Ký Nhận Tin</h2>
+          <p>Nhận thông tin về các tour mới và ưu đãi đặc biệt</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" placeholder="Nhập email của bạn" required />
+            <button type="submit" class="btn btn-primary">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>VietTravel</h3>
+            <p>
+              Công ty du lịch hàng đầu Việt Nam, mang đến những trải nghiệm du
+              lịch tuyệt vời nhất.
+            </p>
+            <div class="social-links">
+              <a href="#" title="Facebook">📘</a>
+              <a href="#" title="Instagram">📷</a>
+              <a href="#" title="YouTube">📹</a>
+              <a href="#" title="Twitter">🐦</a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Dịch Vụ</h4>
+            <ul>
+              <li><a href="tours.html">Tours trong nước</a></li>
+              <li><a href="tours.html">Tours nước ngoài</a></li>
+              <li><a href="#">Vé máy bay</a></li>
+              <li><a href="#">Khách sạn</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Hỗ Trợ</h4>
+            <ul>
+              <li><a href="about.html">Về chúng tôi</a></li>
+              <li><a href="contact.html">Liên hệ</a></li>
+              <li><a href="#">Điều khoản</a></li>
+              <li><a href="#">Chính sách</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Liên Hệ</h4>
+            <ul class="contact-info">
+              <li>📍 Đường 3/2, Ninh Kiều, Cần Thơ</li>
+              <li>📞 0123 456 789</li>
+              <li>✉️ info@viettravel.vn</li>
+              <li>🕐 8:00 - 20:00 (Hằng ngày)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2026 VietTravel. All rights reserved. Designed by Web
+            Development Team.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>

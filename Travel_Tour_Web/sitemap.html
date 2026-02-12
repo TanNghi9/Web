@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap - VietTravel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #ffffff 0%, #f7fafc 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            font-size: 18px;
+            margin-bottom: 60px;
+        }
+        
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .page-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: block;
+        }
+        
+        .page-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.15);
+        }
+        
+        .page-icon {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .page-desc {
+            color: #718096;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        
+        .files-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.08);
+            margin-top: 40px;
+        }
+        
+        .files-section h2 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .file-item {
+            padding: 15px 20px;
+            background: linear-gradient(to bottom, #f7fafc 0%, #ffffff 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.05);
+            font-size: 14px;
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .badge-html {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .badge-css {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .badge-js {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌏 VietTravel - Sitemap</h1>
+        <p class="subtitle">Tất cả các trang của website du lịch</p>
+        
+        <div class="pages-grid">
+            <a href="index.html" class="page-card">
+                <div class="page-icon">🏠</div>
+                <h3 class="page-title">Trang Chủ</h3>
+                <p class="page-desc">Hero section, tìm kiếm tour, tours nổi bật, điểm đến phổ biến, testimonials</p>
+            </a>
+            
+            <a href="tours.html" class="page-card">
+                <div class="page-icon">🎫</div>
+                <h3 class="page-title">Danh Sách Tours</h3>
+                <p class="page-desc">Tất cả tours, bộ lọc tìm kiếm, sắp xếp, pagination</p>
+            </a>
+            
+            <a href="tour-detail.html?id=1" class="page-card">
+                <div class="page-icon">📋</div>
+                <h3 class="page-title">Chi Tiết Tour</h3>
+                <p class="page-desc">Thông tin chi tiết tour, lịch trình, gallery, form đặt tour</p>
+            </a>
+            
+            <a href="destinations.html" class="page-card">
+                <div class="page-icon">📍</div>
+                <h3 class="page-title">Điểm Đến</h3>
+                <p class="page-desc">Các điểm đến du lịch phổ biến tại Việt Nam</p>
+            </a>
+            
+            <a href="about.html" class="page-card">
+                <div class="page-icon">ℹ️</div>
+                <h3 class="page-title">Giới Thiệu</h3>
+                <p class="page-desc">Thông tin về VietTravel, đội ngũ, giá trị cốt lõi</p>
+            </a>
+            
+            <a href="contact.html" class="page-card">
+                <div class="page-icon">📞</div>
+                <h3 class="page-title">Liên Hệ</h3>
+                <p class="page-desc">Form liên hệ, thông tin liên lạc, bản đồ</p>
+            </a>
+        </div>
+        
+        <div class="files-section">
+            <h2>📁 Cấu Trúc File</h2>
+            <div class="file-list">
+                <div class="file-item">index.html <span class="badge badge-html">HTML</span></div>
+                <div class="file-item">tours.html <span class="badge badge-html">HTML</span></div>
+                <div class="file-item">tour-detail.html <span class="badge badge-html">HTML</span></div>
+                <div class="file-item">destinations.html <span class="badge badge-html">HTML</span></div>
+                <div class="file-item">about.html <span class="badge badge-html">HTML</span></div>
+                <div class="file-item">contact.html <span class="badge badge-html">HTML</span></div>
+                <div class="file-item">style.css <span class="badge badge-css">CSS</span></div>
+                <div class="file-item">tour-detail.css <span class="badge badge-css">CSS</span></div>
+                <div class="file-item">contact.css <span class="badge badge-css">CSS</span></div>
+                <div class="file-item">main.js <span class="badge badge-js">JS</span></div>
+                <div class="file-item">tours.js <span class="badge badge-js">JS</span></div>
+                <div class="file-item">tour-detail.js <span class="badge badge-js">JS</span></div>
+                <div class="file-item">contact.js <span class="badge badge-js">JS</span></div>
+            </div>
+        </div>
+        
+        <div class="files-section" style="margin-top: 30px; text-align: center;">
+            <h2>🎨 Tính Năng Thiết Kế</h2>
+            <p style="color: #718096; line-height: 1.8; margin-top: 20px;">
+                ✨ Gradient hiện đại<br>
+                🎯 Glassmorphism effect<br>
+                🚀 Smooth animations<br>
+                📱 Fully responsive<br>
+                💫 Interactive hover effects<br>
+                🌈 Beautiful color palette
+            </p>
+        </div>
+    </div>
+</body>
+</html>

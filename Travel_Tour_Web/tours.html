@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Tours - VietTravel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tours.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>🌏 VietTravel</h1>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="tours.html" class="active">Tours</a></li>
+                    <li><a href="destinations.html">Điểm đến</a></li>
+                    <li><a href="about.html">Giới thiệu</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Danh Sách Tours</h1>
+            <p>Khám phá hơn 100+ tour du lịch trong nước</p>
+        </div>
+    </section>
+
+    <!-- Tours Content -->
+    <section class="tours-content">
+        <div class="container">
+            <div class="tours-layout">
+                <!-- Sidebar Filters -->
+                <aside class="tours-sidebar">
+                    <div class="filter-box">
+                        <h3>🔍 Bộ lọc tìm kiếm</h3>
+                        
+                        <div class="filter-group">
+                            <h4>Điểm đến</h4>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="destination" value="hanoi">
+                                    Hà Nội
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="halongbay">
+                                    Vịnh Hạ Long
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="sapa">
+                                    Sa Pa
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="danang">
+                                    Đà Nẵng
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="hoian">
+                                    Hội An
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="nhatrang">
+                                    Nha Trang
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="dalat">
+                                    Đà Lạt
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="destination" value="phuquoc">
+                                    Phú Quốc
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Loại tour</h4>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="type" value="beach">
+                                    Biển đảo
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type" value="mountain">
+                                    Núi non
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type" value="city">
+                                    Thành phố
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type" value="culture">
+                                    Văn hóa
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type" value="adventure">
+                                    Phiêu lưu
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Khoảng giá</h4>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="price" value="0-3">
+                                    Dưới 3 triệu
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="price" value="3-5">
+                                    3 - 5 triệu
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="price" value="5-10">
+                                    5 - 10 triệu
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="price" value="10+">
+                                    Trên 10 triệu
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Thời gian</h4>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="duration" value="1-3">
+                                    1-3 ngày
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="duration" value="4-7">
+                                    4-7 ngày
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="duration" value="7+">
+                                    Trên 7 ngày
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" id="applyFilters" style="width: 100%; margin-top: 20px;">
+                            Áp dụng lọc
+                        </button>
+                        <button class="btn" id="clearFilters" style="width: 100%; margin-top: 10px; background-color: #e2e8f0;">
+                            Xóa bộ lọc
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Tours List -->
+                <div class="tours-main">
+                    <div class="tours-header">
+                        <div class="results-info">
+                            <p>Tìm thấy <strong id="tourCount">12</strong> tours</p>
+                        </div>
+                        <div class="sort-options">
+                            <label for="sortBy">Sắp xếp:</label>
+                            <select id="sortBy">
+                                <option value="popular">Phổ biến nhất</option>
+                                <option value="price-low">Giá thấp đến cao</option>
+                                <option value="price-high">Giá cao đến thấp</option>
+                                <option value="duration">Thời gian</option>
+                                <option value="newest">Mới nhất</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="tours-list" id="toursList">
+                        <!-- Tour items will be loaded here by JavaScript -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="page-btn" disabled>« Trước</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">Sau »</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>VietTravel</h3>
+                    <p>Công ty du lịch hàng đầu Việt Nam, mang đến những trải nghiệm du lịch tuyệt vời nhất.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Instagram">📷</a>
+                        <a href="#" title="YouTube">📹</a>
+                        <a href="#" title="Twitter">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Dịch Vụ</h4>
+                    <ul>
+                        <li><a href="tours.html">Tours trong nước</a></li>
+                        <li><a href="tours.html">Tours nước ngoài</a></li>
+                        <li><a href="#">Vé máy bay</a></li>
+                        <li><a href="#">Khách sạn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hỗ Trợ</h4>
+                    <ul>
+                        <li><a href="about.html">Về chúng tôi</a></li>
+                        <li><a href="contact.html">Liên hệ</a></li>
+                        <li><a href="#">Điều khoản</a></li>
+                        <li><a href="#">Chính sách</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên Hệ</h4>
+                    <ul class="contact-info">
+                        <li>📍 Đường 3/2, Ninh Kiều, Cần Thơ</li>
+                        <li>📞 0123 456 789</li>
+                        <li>✉️ info@viettravel.vn</li>
+                        <li>🕐 8:00 - 20:00 (Hằng ngày)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 VietTravel. All rights reserved. Designed by Web Development Team.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="tours.js"></script>
+</body>
+</html>

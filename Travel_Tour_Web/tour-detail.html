@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Tour - VietTravel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tour-detail.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>🌏 VietTravel</h1>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="tours.html" class="active">Tours</a></li>
+                    <li><a href="destinations.html">Điểm đến</a></li>
+                    <li><a href="about.html">Giới thiệu</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tour Detail Content -->
+    <section class="tour-detail">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="index.html">Trang chủ</a> / 
+                <a href="tours.html">Tours</a> / 
+                <span id="tourName">Chi tiết tour</span>
+            </div>
+
+            <div class="detail-layout">
+                <!-- Main Content -->
+                <div class="detail-main">
+                    <!-- Tour Header -->
+                    <div class="detail-header">
+                        <h1 id="detailTourName">Vịnh Hạ Long - Du Thuyền 2N1Đ</h1>
+                        <div class="detail-meta">
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span id="detailRating">4.8</span>
+                                <span class="reviews">(<span id="detailReviews">156</span> đánh giá)</span>
+                            </div>
+                            <div class="location">
+                                📍 <span id="detailLocation">Quảng Ninh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Gallery -->
+                    <div class="image-gallery">
+                        <div class="main-image">
+                            <img id="mainImage" src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"halong-bay.jpg" alt="Tour Image">
+                        </div>
+                        <div class="thumbnail-images">
+                            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"halong-1.jpg" alt="Thumbnail 1" onclick="changeMainImage(this.src)">
+                            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"halong-2.jpg" alt="Thumbnail 2" onclick="changeMainImage(this.src)">
+                            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"halong-3.jpg" alt="Thumbnail 3" onclick="changeMainImage(this.src)">
+                            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=800"halong-4.jpg" alt="Thumbnail 4" onclick="changeMainImage(this.src)">
+                        </div>
+                    </div>
+
+                    <!-- Tour Info Tabs -->
+                    <div class="info-tabs">
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-tab="overview">Tổng quan</button>
+                            <button class="tab-btn" data-tab="schedule">Lịch trình</button>
+                            <button class="tab-btn" data-tab="include">Bao gồm</button>
+                            <button class="tab-btn" data-tab="policy">Chính sách</button>
+                        </div>
+
+                        <div class="tab-content">
+                            <!-- Overview Tab -->
+                            <div class="tab-pane active" id="overview">
+                                <h3>Mô tả chi tiết</h3>
+                                <p id="detailDescription">
+                                    Chuyến du lịch Vịnh Hạ Long 2 ngày 1 đêm mang đến cho bạn trải nghiệm tuyệt vời tại kỳ quan thiên nhiên thế giới. Bạn sẽ được ngắm nhìn hàng nghìn hòn đảo đá vôi kỳ vĩ, khám phá các hang động tuyệt đẹp, và tận hưởng không gian yên bình trên vùng biển xanh ngọc bích.
+                                </p>
+                                <p>
+                                    Du thuyền 5 sao với đầy đủ tiện nghi hiện đại, phòng nghỉ sang trọng view biển, nhà hàng phục vụ các món ăn hải sản tươi ngon. Đội ngũ hướng dẫn viên nhiệt tình, chuyên nghiệp sẽ đồng hành cùng bạn suốt chuyến đi.
+                                </p>
+
+                                <h3>Điểm nổi bật</h3>
+                                <ul class="highlight-list">
+                                    <li>✅ Du thuyền 5 sao với đầy đủ tiện nghi cao cấp</li>
+                                    <li>✅ Khám phá động Thiên Cung - một trong những hang động đẹp nhất Hạ Long</li>
+                                    <li>✅ Tham quan làng chài cổ truyền Cửa Vạn</li>
+                                    <li>✅ Chèo thuyền kayak khám phá vịnh Lan Hạ</li>
+                                    <li>✅ Thưởng thức buffet hải sản tươi sống trên du thuyền</li>
+                                    <li>✅ Tắm biển tại bãi biển hoang sơ</li>
+                                    <li>✅ Ngắm hoàng hôn và bình minh trên vịnh</li>
+                                </ul>
+                            </div>
+
+                            <!-- Schedule Tab -->
+                            <div class="tab-pane" id="schedule">
+                                <div class="schedule-item">
+                                    <div class="schedule-day">Ngày 1</div>
+                                    <div class="schedule-content">
+                                        <h4>HÀ NỘI - VỊNH HẠ LONG</h4>
+                                        <p><strong>8:00:</strong> Xe đón tại điểm hẹn ở Hà Nội, khởi hành đi Hạ Long</p>
+                                        <p><strong>12:00:</strong> Đến bến tàu, làm thủ tục lên du thuyền</p>
+                                        <p><strong>12:30:</strong> Dùng bữa trưa với buffet hải sản trên du thuyền</p>
+                                        <p><strong>14:00:</strong> Tham quan động Thiên Cung</p>
+                                        <p><strong>16:00:</strong> Chèo thuyền kayak hoặc tắm biển</p>
+                                        <p><strong>18:30:</strong> Tham gia lớp học nấu ăn Việt Nam</p>
+                                        <p><strong>19:30:</strong> Dùng bữa tối trên du thuyền</p>
+                                        <p><strong>21:00:</strong> Câu mực đêm, karaoke hoặc thư giãn tại bar</p>
+                                    </div>
+                                </div>
+
+                                <div class="schedule-item">
+                                    <div class="schedule-day">Ngày 2</div>
+                                    <div class="schedule-content">
+                                        <h4>VỊNH HẠ LONG - HÀ NỘI</h4>
+                                        <p><strong>6:00:</strong> Tham gia lớp Tai Chi trên boong tàu, ngắm bình minh</p>
+                                        <p><strong>7:00:</strong> Dùng bữa sáng nhẹ</p>
+                                        <p><strong>8:00:</strong> Tham quan làng chài Cửa Vạn</p>
+                                        <p><strong>10:00:</strong> Trả phòng, dùng brunch buffet</p>
+                                        <p><strong>11:30:</strong> Du thuyền cập bến, xuống tàu</p>
+                                        <p><strong>12:00:</strong> Xe đưa đoàn về Hà Nội</p>
+                                        <p><strong>16:00:</strong> Về đến Hà Nội, kết thúc chương trình</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Include Tab -->
+                            <div class="tab-pane" id="include">
+                                <h3>Bao gồm</h3>
+                                <ul class="include-list">
+                                    <li>✅ Xe ô tô đời mới đưa đón Hà Nội - Hạ Long - Hà Nội</li>
+                                    <li>✅ Du thuyền 5 sao theo chương trình</li>
+                                    <li>✅ Phòng nghỉ cabin đôi tiêu chuẩn 2-3 sao có điều hòa, WC riêng</li>
+                                    <li>✅ 01 bữa trưa, 01 bữa tối, 01 bữa sáng, 01 bữa brunch theo thực đơn</li>
+                                    <li>✅ Vé tham quan các điểm trong chương trình</li>
+                                    <li>✅ Hướng dẫn viên tiếng Việt nhiệt tình, kinh nghiệm</li>
+                                    <li>✅ Bảo hiểm du lịch mức bồi thường cao nhất 120.000.000đ/vụ</li>
+                                    <li>✅ Nước suối và khăn lạnh trên xe</li>
+                                </ul>
+
+                                <h3>Không bao gồm</h3>
+                                <ul class="exclude-list">
+                                    <li>❌ Các chi phí cá nhân: giặt ủi, điện thoại, đồ uống tại minibar...</li>
+                                    <li>❌ Tiền tip cho HDV và lái xe (tự nguyện)</li>
+                                    <li>❌ Thuế VAT</li>
+                                    <li>❌ Chi phí phát sinh ngoài chương trình</li>
+                                </ul>
+                            </div>
+
+                            <!-- Policy Tab -->
+                            <div class="tab-pane" id="policy">
+                                <h3>Chính sách hủy tour</h3>
+                                <ul class="policy-list">
+                                    <li>🔹 Hủy trước 15 ngày: Hoàn 100% tiền tour</li>
+                                    <li>🔹 Hủy trước 7-14 ngày: Hoàn 70% tiền tour</li>
+                                    <li>🔹 Hủy trước 3-6 ngày: Hoàn 50% tiền tour</li>
+                                    <li>🔹 Hủy trong vòng 48 giờ: Không hoàn tiền</li>
+                                </ul>
+
+                                <h3>Lưu ý</h3>
+                                <ul class="note-list">
+                                    <li>⚠️ Mang theo CMND/CCCD bản chính</li>
+                                    <li>⚠️ Trẻ em dưới 5 tuổi được miễn phí (ngủ chung với bố mẹ)</li>
+                                    <li>⚠️ Trẻ em từ 5-9 tuổi được tính 75% giá tour</li>
+                                    <li>⚠️ Trẻ em từ 10 tuổi trở lên được tính như người lớn</li>
+                                    <li>⚠️ Chương trình có thể thay đổi theo thời tiết và tình hình thực tế</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Booking -->
+                <aside class="detail-sidebar">
+                    <div class="booking-box">
+                        <div class="price-section">
+                            <div class="price-label">Giá tour</div>
+                            <div class="price-value" id="detailPrice">2.500.000đ</div>
+                            <div class="price-note">Giá trên chưa bao gồm VAT</div>
+                        </div>
+
+                        <form class="booking-form" id="bookingForm">
+                            <div class="form-group">
+                                <label for="bookingDate">Ngày khởi hành</label>
+                                <input type="date" id="bookingDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="adults">Số người lớn</label>
+                                <select id="adults" required>
+                                    <option value="1">1 người</option>
+                                    <option value="2" selected>2 người</option>
+                                    <option value="3">3 người</option>
+                                    <option value="4">4 người</option>
+                                    <option value="5">5 người</option>
+                                    <option value="6+">6+ người</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="children">Số trẻ em</label>
+                                <select id="children">
+                                    <option value="0" selected>Không có</option>
+                                    <option value="1">1 trẻ</option>
+                                    <option value="2">2 trẻ</option>
+                                    <option value="3">3 trẻ</option>
+                                </select>
+                            </div>
+
+                            <div class="total-price">
+                                <span>Tổng cộng:</span>
+                                <span class="total-value" id="totalPrice">5.000.000đ</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                                Đặt tour ngay
+                            </button>
+                            <button type="button" class="btn" style="width: 100%; background-color: #10b981; color: white;">
+                                💬 Liên hệ tư vấn
+                            </button>
+                        </form>
+
+                        <div class="contact-info-box">
+                            <h4>Cần hỗ trợ?</h4>
+                            <p>📞 Hotline: <strong>0123 456 789</strong></p>
+                            <p>✉️ Email: <strong>info@viettravel.vn</strong></p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>VietTravel</h3>
+                    <p>Công ty du lịch hàng đầu Việt Nam, mang đến những trải nghiệm du lịch tuyệt vời nhất.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Instagram">📷</a>
+                        <a href="#" title="YouTube">📹</a>
+                        <a href="#" title="Twitter">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Dịch Vụ</h4>
+                    <ul>
+                        <li><a href="tours.html">Tours trong nước</a></li>
+                        <li><a href="tours.html">Tours nước ngoài</a></li>
+                        <li><a href="#">Vé máy bay</a></li>
+                        <li><a href="#">Khách sạn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hỗ Trợ</h4>
+                    <ul>
+                        <li><a href="about.html">Về chúng tôi</a></li>
+                        <li><a href="contact.html">Liên hệ</a></li>
+                        <li><a href="#">Điều khoản</a></li>
+                        <li><a href="#">Chính sách</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên Hệ</h4>
+                    <ul class="contact-info">
+                        <li>📍 Đường 3/2, Ninh Kiều, Cần Thơ</li>
+                        <li>📞 0123 456 789</li>
+                        <li>✉️ info@viettravel.vn</li>
+                        <li>🕐 8:00 - 20:00 (Hằng ngày)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 VietTravel. All rights reserved. Designed by Web Development Team.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="tour-detail.js"></script>
+</body>
+</html>
