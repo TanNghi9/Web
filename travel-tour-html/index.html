@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelViet – Khám Phá Việt Nam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="active">Trang chủ</a></li>
+            <li><a href="pages/tours.html">Tour du lịch</a></li>
+            <li><a href="pages/profile.html">Booking của tôi</a></li>
+            <li><a href="pages/admin.html">⚙ Admin</a></li>
+            <li><a href="pages/login.html" class="nav-btn-login">Đăng nhập</a></li>
+            <li><a href="pages/register.html" class="nav-btn-register">Đăng ký</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<section class="hero no-image">
+    <div class="hero-content">
+        <span class="hero-badge">✦ Khám phá Việt Nam</span>
+        <h1>Hành trình <span class="highlight">tuyệt vời</span><br>chờ bạn phía trước</h1>
+        <p class="hero-subtitle">Hàng trăm tour du lịch chất lượng cao trên khắp Việt Nam.<br>Đặt tour dễ dàng, giá tốt, trải nghiệm đỉnh cao.</p>
+        <div class="hero-searchbox">
+            <div class="search-field">
+                <label>🔍 Tìm kiếm</label>
+                <input type="text" id="heroSearch" placeholder="Bạn muốn đi đâu?">
+            </div>
+            <div class="search-field">
+                <label>🗂 Danh mục</label>
+                <select id="heroCat">
+                    <option value="">Tất cả loại</option>
+                    <option value="beach">🏖️ Biển</option>
+                    <option value="mountain">⛰️ Núi</option>
+                    <option value="city">🏙️ Thành phố</option>
+                    <option value="cultural">🏛️ Văn hóa</option>
+                    <option value="cruise">🚢 Du thuyền</option>
+                </select>
+            </div>
+            <button class="btn-search" onclick="heroSearch()">🔍 Tìm ngay</button>
+        </div>
+    </div>
+    <div class="hero-scroll"><span>↓</span><small>CUỘN XUỐNG</small></div>
+</section>
+
+<div class="stats-bar">
+    <div class="stats-grid">
+        <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">🗺 Tour du lịch</span></div>
+        <div class="stat-item"><span class="stat-number">1.200+</span><span class="stat-label">👥 Khách hàng</span></div>
+        <div class="stat-item"><span class="stat-number">3.400+</span><span class="stat-label">📋 Booking thành công</span></div>
+        <div class="stat-item"><span class="stat-number">25+</span><span class="stat-label">📍 Điểm đến</span></div>
+    </div>
+</div>
+
+<section class="section section-cream" id="featured">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-header-left">
+                <span class="section-tagline">✦ Nổi bật</span>
+                <h2>Tour được yêu thích nhất</h2>
+                <p class="section-subtitle">Click vào tour để xem chi tiết và đặt ngay</p>
+            </div>
+            <a href="pages/tours.html" class="view-all-link">Xem tất cả →</a>
+        </div>
+        <div class="category-tabs" id="homeTabs">
+            <span class="tab-chip active" onclick="filterHome('',this)">🌏 Tất cả</span>
+            <span class="tab-chip" onclick="filterHome('beach',this)">🏖️ Biển</span>
+            <span class="tab-chip" onclick="filterHome('mountain',this)">⛰️ Núi</span>
+            <span class="tab-chip" onclick="filterHome('city',this)">🏙️ Thành phố</span>
+            <span class="tab-chip" onclick="filterHome('cultural',this)">🏛️ Văn hóa</span>
+            <span class="tab-chip" onclick="filterHome('cruise',this)">🚢 Du thuyền</span>
+        </div>
+        <div class="tours-grid" id="homeGrid"></div>
+    </div>
+</section>
+
+<section class="section section-white">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:48px;">
+            <span class="section-tagline">✦ Tại sao chọn chúng tôi</span>
+            <h2>Cam kết chất lượng hàng đầu</h2>
+            <p class="section-subtitle">Lý do hàng nghìn khách hàng tin tưởng TravelViet</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card"><span class="feature-icon">🏆</span><h4>Chất lượng đảm bảo</h4><p>Mọi tour được kiểm duyệt kỹ càng, đảm bảo tiêu chuẩn dịch vụ cao nhất.</p></div>
+            <div class="feature-card"><span class="feature-icon">💰</span><h4>Giá tốt nhất</h4><p>Cam kết giá cạnh tranh, không phí ẩn, thanh toán minh bạch.</p></div>
+            <div class="feature-card"><span class="feature-icon">🎯</span><h4>Hỗ trợ 24/7</h4><p>Đội ngũ chăm sóc luôn sẵn sàng giải đáp mọi thắc mắc của bạn.</p></div>
+            <div class="feature-card"><span class="feature-icon">✈</span><h4>Đặt tour dễ dàng</h4><p>Quy trình đặt tour đơn giản, nhanh chóng chỉ trong vài bước.</p></div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-brand"><a href="index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a><p>Khám phá vẻ đẹp Việt Nam. Hàng trăm tour chất lượng cao.</p></div>
+        <div class="footer-col"><h5>Liên kết nhanh</h5><ul class="footer-links"><li><a href="index.html">🏠 Trang chủ</a></li><li><a href="pages/tours.html">🗺 Tour du lịch</a></li><li><a href="pages/profile.html">📋 Booking của tôi</a></li></ul></div>
+        <div class="footer-col"><h5>Danh mục</h5><ul class="footer-links"><li><a href="pages/tours.html?cat=beach">🏖️ Tour biển</a></li><li><a href="pages/tours.html?cat=mountain">⛰️ Tour núi</a></li><li><a href="pages/tours.html?cat=cultural">🏛️ Văn hóa</a></li></ul></div>
+        <div class="footer-col"><h5>Liên hệ</h5><div class="footer-contact-item">📍 123 Nguyễn Huệ, Q.1, TP.HCM</div><div class="footer-contact-item">📞 0901 234 567</div><div class="footer-contact-item">✉ info@travelviet.vn</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 TravelViet.</span><span>CT214H – Web Programming Final Project</span></div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="popup-overlay" id="newsletterPopup">
+    <div class="popup-card">
+        <button class="popup-close" onclick="closePopup()">✕</button>
+        <div style="font-size:3rem;margin-bottom:12px;">✈</div>
+        <h3 style="margin-bottom:8px;">Nhận ưu đãi đặc biệt!</h3>
+        <p style="color:var(--gray);font-size:0.9rem;margin-bottom:20px;">Đăng ký nhận bản tin để không bỏ lỡ tour giảm giá.</p>
+        <div style="display:flex;gap:8px;">
+            <input type="email" id="popupEmailInput" class="form-control" placeholder="your@email.com">
+            <button class="btn btn-primary" onclick="subscribeNewsletter()">Đăng ký</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/tours-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+const CAT_LABELS = {beach:'🏖️ Biển',mountain:'⛰️ Núi',city:'🏙️ Thành phố',cultural:'🏛️ Văn hóa',adventure:'🧗 Phiêu lưu',cruise:'🚢 Du thuyền'};
+
+function buildCard(t, base) {
+    return `
+    <div class="tour-card" onclick="window.location.href='${base}pages/tour-detail.html?id=${t.id}'" style="cursor:pointer;">
+        <div class="tour-card-img">
+            <div class="tour-emoji-placeholder">${t.emoji}</div>
+            <span class="card-badge">${CAT_LABELS[t.category]}</span>
+            ${t.badge ? `<span class="card-badge-hot">${t.badge}</span>` : ''}
+        </div>
+        <div class="tour-card-body">
+            <div class="tour-dest">📍 ${t.dest}</div>
+            <h3>${t.title}</h3>
+            <p class="tour-excerpt">${t.desc.slice(0,100)}...</p>
+            <div class="tour-card-footer">
+                <div class="tour-meta">
+                    <span class="meta-tag">⏱ ${t.duration} ngày</span>
+                    <span class="meta-tag">👥 Còn ${t.spots} chỗ</span>
+                </div>
+                <div class="tour-price-tag">
+                    <span class="price-amount">${t.price.toLocaleString('vi-VN')}</span>
+                    <span class="price-unit">₫/người</span>
+                </div>
+            </div>
+            <div style="margin-top:10px;display:flex;align-items:center;gap:6px;">
+                <span class="stars">${'★'.repeat(Math.round(t.rating))}${'☆'.repeat(5-Math.round(t.rating))}</span>
+                <span style="font-size:0.82rem;color:var(--gray);">${t.rating} (${t.reviews} đánh giá)</span>
+            </div>
+            <div style="margin-top:12px;">
+                <span style="display:inline-block;background:var(--orange);color:white;padding:7px 18px;border-radius:8px;font-size:0.85rem;font-weight:700;pointer-events:none;">Xem & Đặt tour →</span>
+            </div>
+        </div>
+    </div>`;
+}
+
+function filterHome(cat, el) {
+    document.querySelectorAll('#homeTabs .tab-chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const list = cat ? TOURS_DATA.filter(t => t.category === cat) : TOURS_DATA.slice(0,6);
+    document.getElementById('homeGrid').innerHTML = list.map(t => buildCard(t, '')).join('');
+}
+
+function heroSearch() {
+    const q = document.getElementById('heroSearch').value;
+    const cat = document.getElementById('heroCat').value;
+    const p = new URLSearchParams();
+    if (q) p.set('search', q);
+    if (cat) p.set('cat', cat);
+    window.location.href = 'pages/tours.html' + (p.toString() ? '?' + p.toString() : '');
+}
+
+document.getElementById('heroSearch').addEventListener('keypress', e => { if (e.key === 'Enter') heroSearch(); });
+document.addEventListener('DOMContentLoaded', () => filterHome('', null));
+</script>
+</body>
+</html>

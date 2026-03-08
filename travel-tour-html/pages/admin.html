@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – TravelViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="tours.html">Tours</a></li>
+            <li><a href="admin.html" class="active" style="color:var(--orange);">⚙ Admin</a></li>
+            <li><a href="login.html" class="nav-btn-login">Đăng xuất</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="admin-layout">
+
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-title">⚙ ADMIN PANEL</div>
+        <nav>
+            <a href="admin.html" class="admin-nav-item active">
+                <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a href="admin-tours.html" class="admin-nav-item">
+                <span class="nav-icon">🗺</span> Quản lý Tour
+            </a>
+            <a href="admin-bookings.html" class="admin-nav-item">
+                <span class="nav-icon">📋</span> Quản lý Booking
+            </a>
+            <a href="admin-users.html" class="admin-nav-item">
+                <span class="nav-icon">👥</span> Quản lý Users
+            </a>
+            <a href="../index.html" class="admin-nav-item" style="margin-top:auto;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;">
+                <span class="nav-icon">←</span> Về trang chủ
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Admin Main -->
+    <main class="admin-main">
+        <h1 class="admin-page-title">📊 Dashboard</h1>
+
+        <!-- Stats Cards -->
+        <div class="admin-stats-grid" id="statsGrid">
+            <div class="astat-card">
+                <span class="astat-value" id="statTours">8</span>
+                <div class="astat-label">🗺 Tổng tour hoạt động</div>
+            </div>
+            <div class="astat-card">
+                <span class="astat-value" id="statUsers">4</span>
+                <div class="astat-label">👥 Khách hàng</div>
+            </div>
+            <div class="astat-card">
+                <span class="astat-value" id="statBookings">5</span>
+                <div class="astat-label">📋 Tổng booking</div>
+            </div>
+            <div class="astat-card">
+                <span class="astat-value" id="statRevenue">47.1M</span>
+                <div class="astat-label">💰 Doanh thu (đã xác nhận)</div>
+            </div>
+        </div>
+
+        <!-- Recent Bookings -->
+        <div style="margin-bottom:32px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h2 style="font-size:1.5rem;margin:0;">Booking gần đây</h2>
+                <a href="admin-bookings.html" class="btn btn-outline btn-sm">Xem tất cả →</a>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Khách hàng</th>
+                        <th>Tour</th>
+                        <th>Ngày đi</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="recentBookingsTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Quick Actions -->
+        <div>
+            <h2 style="font-size:1.5rem;margin-bottom:16px;">Thao tác nhanh</h2>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <a href="admin-tours.html" class="btn btn-primary">➕ Thêm tour mới</a>
+                <a href="admin-bookings.html" class="btn btn-teal">📋 Xem booking</a>
+                <a href="admin-users.html" class="btn btn-outline">👥 Quản lý users</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+
+    // Stats
+    document.getElementById('statBookings').textContent = bookings.length;
+    const confirmed = bookings.filter(b => b.status === 'confirmed');
+    const revenue = confirmed.reduce((sum, b) => sum + (b.total || 0), 0);
+    document.getElementById('statRevenue').textContent = (revenue/1000000).toFixed(1) + 'M';
+
+    // Recent bookings table
+    const recent = [...bookings].slice(0, 5);
+    const statusBadge = {
+        pending:   '<span class="badge badge-pending">⏳ Chờ XN</span>',
+        confirmed: '<span class="badge badge-confirmed">✅ Đã XN</span>',
+        cancelled: '<span class="badge badge-cancelled">❌ Huỷ</span>',
+    };
+    const tbody = document.getElementById('recentBookingsTable');
+    tbody.innerHTML = recent.map(b => `
+        <tr>
+            <td><strong>#${String(b.id).padStart(6,'0')}</strong></td>
+            <td>Khách hàng</td>
+            <td>${b.tour}<br><small style="color:var(--gray);">📍 ${b.dest}</small></td>
+            <td>${new Date(b.date).toLocaleDateString('vi-VN')}</td>
+            <td style="font-weight:700;color:var(--orange);">${(b.total||0).toLocaleString('vi-VN')} ₫</td>
+            <td>${statusBadge[b.status] || b.status}</td>
+        </tr>
+    `).join('');
+});
+</script>
+</body>
+</html>

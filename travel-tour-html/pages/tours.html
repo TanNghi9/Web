@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Du Lịch – TravelViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="tours.html" class="active">Tour du lịch</a></li>
+            <li><a href="profile.html">Booking của tôi</a></li>
+            <li><a href="login.html" class="nav-btn-login">Đăng nhập</a></li>
+            <li><a href="register.html" class="nav-btn-register">Đăng ký</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="page-banner">
+    <div class="container">
+        <div class="breadcrumb"><a href="../index.html">Trang chủ</a><span class="breadcrumb-sep">/</span><span>Tour du lịch</span></div>
+        <h1>Tour Du Lịch</h1>
+        <div class="tour-meta-pills">
+            <span class="meta-pill">🗺 <span id="bannerCount">8</span> Tour</span>
+            <span class="meta-pill">📍 25+ Điểm đến</span>
+            <span class="meta-pill">⭐ Đánh giá cao</span>
+        </div>
+    </div>
+</div>
+
+<section class="section section-cream">
+    <div class="container">
+
+        <!-- Filter -->
+        <div class="filter-section">
+            <div class="filter-title">🔍 Tìm kiếm & Lọc Tour</div>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label>Tìm kiếm</label>
+                    <input type="text" id="searchInput" placeholder="Tên tour, điểm đến..." oninput="applyFilter()">
+                </div>
+                <div class="filter-group">
+                    <label>Danh mục</label>
+                    <select id="filterCategory" onchange="applyFilter()">
+                        <option value="">Tất cả</option>
+                        <option value="beach">🏖️ Biển</option>
+                        <option value="mountain">⛰️ Núi</option>
+                        <option value="city">🏙️ Thành phố</option>
+                        <option value="cultural">🏛️ Văn hóa</option>
+                        <option value="adventure">🧗 Phiêu lưu</option>
+                        <option value="cruise">🚢 Du thuyền</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Giá từ (₫)</label>
+                    <input type="number" id="minPrice" placeholder="0" oninput="applyFilter()">
+                </div>
+                <div class="filter-group">
+                    <label>Giá đến (₫)</label>
+                    <input type="number" id="maxPrice" placeholder="Không giới hạn" oninput="applyFilter()">
+                </div>
+                <button class="btn-filter" onclick="applyFilter()">🔍 Lọc</button>
+                <button class="btn-reset" onclick="resetFilter()">✕ Reset</button>
+            </div>
+        </div>
+
+        <!-- Category tabs -->
+        <div class="category-tabs" id="catTabs">
+            <span class="tab-chip active" onclick="tabFilter('',this)">🌏 Tất cả</span>
+            <span class="tab-chip" onclick="tabFilter('beach',this)">🏖️ Biển</span>
+            <span class="tab-chip" onclick="tabFilter('mountain',this)">⛰️ Núi</span>
+            <span class="tab-chip" onclick="tabFilter('city',this)">🏙️ Thành phố</span>
+            <span class="tab-chip" onclick="tabFilter('cultural',this)">🏛️ Văn hóa</span>
+            <span class="tab-chip" onclick="tabFilter('adventure',this)">🧗 Phiêu lưu</span>
+            <span class="tab-chip" onclick="tabFilter('cruise',this)">🚢 Du thuyền</span>
+        </div>
+
+        <!-- Results bar -->
+        <div class="results-bar">
+            <p class="results-count">Tìm thấy <strong id="resultCount">8</strong> tour</p>
+            <div class="sort-bar">
+                <span>Sắp xếp:</span>
+                <select id="sortSelect" onchange="applyFilter()">
+                    <option value="">Mới nhất</option>
+                    <option value="price_asc">Giá thấp → cao</option>
+                    <option value="price_desc">Giá cao → thấp</option>
+                    <option value="rating">Đánh giá cao nhất</option>
+                    <option value="name">Tên A → Z</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tours Grid -->
+        <div class="tours-grid" id="toursGrid"></div>
+
+        <!-- Empty state -->
+        <div id="emptyState" class="empty-state" style="display:none;">
+            <span class="empty-icon">🔍</span>
+            <h3>Không tìm thấy tour phù hợp</h3>
+            <p>Thử thay đổi từ khóa hoặc bộ lọc</p>
+            <button class="btn btn-teal" onclick="resetFilter()">Xem tất cả tour</button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a><p>Khám phá vẻ đẹp Việt Nam.</p></div>
+        <div class="footer-col"><h5>Liên kết</h5><ul class="footer-links"><li><a href="../index.html">Trang chủ</a></li><li><a href="profile.html">Booking của tôi</a></li></ul></div>
+        <div class="footer-col"><h5>Danh mục</h5><ul class="footer-links"><li><a href="#">🏖️ Tour biển</a></li><li><a href="#">⛰️ Tour núi</a></li></ul></div>
+        <div class="footer-col"><h5>Liên hệ</h5><div class="footer-contact-item">📞 0901 234 567</div><div class="footer-contact-item">✉ info@travelviet.vn</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 TravelViet.</span><span>CT214H – Web Programming</span></div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="../js/tours-data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const CAT_LABELS = {beach:'🏖️ Biển',mountain:'⛰️ Núi',city:'🏙️ Thành phố',cultural:'🏛️ Văn hóa',adventure:'🧗 Phiêu lưu',cruise:'🚢 Du thuyền'};
+const PER_PAGE = 6;
+let curPage = 1;
+let filteredList = [...TOURS_DATA];
+
+function applyFilter() {
+    curPage = 1;
+    const search   = (document.getElementById('searchInput').value || '').toLowerCase();
+    const cat      = document.getElementById('filterCategory').value;
+    const minP     = parseInt(document.getElementById('minPrice').value) || 0;
+    const maxP     = parseInt(document.getElementById('maxPrice').value) || Infinity;
+    const sort     = document.getElementById('sortSelect').value;
+
+    filteredList = TOURS_DATA.filter(t => {
+        const matchS = !search || t.title.toLowerCase().includes(search) || t.dest.toLowerCase().includes(search);
+        const matchC = !cat || t.category === cat;
+        const matchP = t.price >= minP && t.price <= maxP;
+        return matchS && matchC && matchP;
+    });
+
+    if (sort === 'price_asc')  filteredList.sort((a,b) => a.price - b.price);
+    if (sort === 'price_desc') filteredList.sort((a,b) => b.price - a.price);
+    if (sort === 'rating')     filteredList.sort((a,b) => b.rating - a.rating);
+    if (sort === 'name')       filteredList.sort((a,b) => a.title.localeCompare(b.title));
+
+    renderGrid();
+}
+
+function tabFilter(cat, el) {
+    document.querySelectorAll('#catTabs .tab-chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    document.getElementById('filterCategory').value = cat;
+    applyFilter();
+}
+
+function renderGrid() {
+    const total = filteredList.length;
+    const totalPages = Math.ceil(total / PER_PAGE) || 1;
+    const paged = filteredList.slice((curPage-1)*PER_PAGE, curPage*PER_PAGE);
+
+    document.getElementById('resultCount').textContent = total;
+    document.getElementById('bannerCount').textContent = total;
+
+    const grid = document.getElementById('toursGrid');
+    const empty = document.getElementById('emptyState');
+
+    if (total === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+    }
+    empty.style.display = 'none';
+
+    grid.innerHTML = paged.map(t => `
+        <div class="tour-card" onclick="window.location.href='tour-detail.html?id=${t.id}'" style="cursor:pointer;">
+            <div class="tour-card-img">
+                <div class="tour-emoji-placeholder">${t.emoji}</div>
+                <span class="card-badge">${CAT_LABELS[t.category]}</span>
+                ${t.badge ? `<span class="card-badge-hot">${t.badge}</span>` : ''}
+            </div>
+            <div class="tour-card-body">
+                <div class="tour-dest">📍 ${t.dest}</div>
+                <h3>${t.title}</h3>
+                <p class="tour-excerpt">${t.desc.slice(0,100)}...</p>
+                <div class="tour-card-footer">
+                    <div class="tour-meta">
+                        <span class="meta-tag">⏱ ${t.duration} ngày</span>
+                        <span class="meta-tag">👥 Còn ${t.spots} chỗ</span>
+                    </div>
+                    <div class="tour-price-tag">
+                        <span class="price-amount">${t.price.toLocaleString('vi-VN')}</span>
+                        <span class="price-unit">₫/người</span>
+                    </div>
+                </div>
+                <div style="margin-top:10px;">
+                    <span class="stars">${'★'.repeat(Math.round(t.rating))}${'☆'.repeat(5-Math.round(t.rating))}</span>
+                    <small style="color:var(--gray);"> ${t.rating} (${t.reviews} đánh giá)</small>
+                </div>
+                <div style="margin-top:12px;">
+                    <span style="display:inline-block;background:var(--orange);color:white;padding:7px 18px;border-radius:8px;font-size:0.85rem;font-weight:700;pointer-events:none;">Xem & Đặt tour →</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Pagination
+    const pg = document.getElementById('pagination');
+    if (totalPages <= 1) { pg.innerHTML = ''; return; }
+    let html = `<span class="${curPage===1?'pg-disabled':''}" onclick="gotoPage(${curPage-1})">←</span>`;
+    for (let i=1; i<=totalPages; i++) html += `<span class="${i===curPage?'pg-active':''}" onclick="gotoPage(${i})">${i}</span>`;
+    html += `<span class="${curPage===totalPages?'pg-disabled':''}" onclick="gotoPage(${curPage+1})">→</span>`;
+    pg.innerHTML = html;
+}
+
+function gotoPage(p) {
+    const total = Math.ceil(filteredList.length / PER_PAGE) || 1;
+    if (p < 1 || p > total) return;
+    curPage = p;
+    renderGrid();
+    window.scrollTo({top:300, behavior:'smooth'});
+}
+
+function resetFilter() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('filterCategory').value = '';
+    document.getElementById('minPrice').value = '';
+    document.getElementById('maxPrice').value = '';
+    document.getElementById('sortSelect').value = '';
+    document.querySelectorAll('#catTabs .tab-chip').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('#catTabs .tab-chip')[0].classList.add('active');
+    applyFilter();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Read URL params
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('search')) document.getElementById('searchInput').value = params.get('search');
+    if (params.get('cat')) {
+        document.getElementById('filterCategory').value = params.get('cat');
+        const activeChip = document.querySelector(`#catTabs .tab-chip[onclick*="'${params.get('cat')}'"]`);
+        if (activeChip) {
+            document.querySelectorAll('#catTabs .tab-chip').forEach(c => c.classList.remove('active'));
+            activeChip.classList.add('active');
+        }
+    }
+    applyFilter();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết Tour – TravelViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .itinerary-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        .itinerary-day {
+            background: var(--orange);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .itinerary-content {
+            padding-top: 4px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+        .include-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .include-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 0.9rem;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 90px;
+            right: 24px;
+            background: #27ae60;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            z-index: 3000;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.error { background: #e74c3c; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="tours.html" class="active">Tour du lịch</a></li>
+            <li><a href="profile.html">Booking của tôi</a></li>
+            <li><a href="login.html" class="nav-btn-login">Đăng nhập</a></li>
+            <li><a href="register.html" class="nav-btn-register">Đăng ký</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Dynamic Banner -->
+<div class="page-banner" id="pageBanner">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Trang chủ</a>
+            <span class="breadcrumb-sep">/</span>
+            <a href="tours.html">Tour du lịch</a>
+            <span class="breadcrumb-sep">/</span>
+            <span id="bannerTitle">...</span>
+        </div>
+        <h1 id="bannerH1">Đang tải...</h1>
+        <div class="tour-meta-pills" id="bannerMeta"></div>
+    </div>
+</div>
+
+<!-- Detail Layout -->
+<div class="detail-container" id="detailContainer">
+    <!-- filled by JS -->
+</div>
+
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a><p>Khám phá vẻ đẹp Việt Nam.</p></div>
+        <div class="footer-col"><h5>Liên kết</h5><ul class="footer-links"><li><a href="../index.html">Trang chủ</a></li><li><a href="tours.html">Tour du lịch</a></li><li><a href="profile.html">Booking của tôi</a></li></ul></div>
+        <div class="footer-col"><h5>Danh mục</h5><ul class="footer-links"><li><a href="tours.html?cat=beach">🏖️ Tour biển</a></li><li><a href="tours.html?cat=mountain">⛰️ Tour núi</a></li></ul></div>
+        <div class="footer-col"><h5>Liên hệ</h5><div class="footer-contact-item">📞 0901 234 567</div><div class="footer-contact-item">✉ info@travelviet.vn</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 TravelViet.</span><span>CT214H – Web Programming</span></div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="../js/tours-data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const CAT_LABELS = {beach:'🏖️ Biển',mountain:'⛰️ Núi',city:'🏙️ Thành phố',cultural:'🏛️ Văn hóa',adventure:'🧗 Phiêu lưu',cruise:'🚢 Du thuyền'};
+
+// ── Toast helper ──────────────────────────
+function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    t.className = 'toast' + (type==='error' ? ' error' : '');
+    t.innerHTML = (type==='success' ? '✅' : '❌') + ' ' + msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── Load tour by ID ───────────────────────
+const urlParams = new URLSearchParams(window.location.search);
+const tourId    = parseInt(urlParams.get('id')) || 1;
+const tour      = TOURS_DATA.find(t => t.id === tourId) || TOURS_DATA[0];
+
+// Get stored reviews (merged with defaults)
+function getReviews(tid) {
+    const stored = JSON.parse(localStorage.getItem('reviews_' + tid) || '[]');
+    const base   = (TOURS_DATA.find(t => t.id === tid) || {}).reviewList || [];
+    return [...base, ...stored];
+}
+
+// ── Render banner ─────────────────────────
+document.title = tour.title + ' – TravelViet';
+document.getElementById('bannerTitle').textContent = tour.title;
+document.getElementById('bannerH1').textContent    = tour.title;
+document.getElementById('bannerMeta').innerHTML = `
+    <span class="meta-pill">📍 ${tour.dest}</span>
+    <span class="meta-pill">⏱ ${tour.duration} ngày</span>
+    <span class="meta-pill">${CAT_LABELS[tour.category]}</span>
+    <span class="meta-pill">⭐ ${tour.rating} (${tour.reviews} đánh giá)</span>
+    <span class="meta-pill">👥 Còn ${tour.spots} chỗ</span>
+`;
+
+// ── Render reviews list ───────────────────
+function renderReviews(tid) {
+    const reviews = getReviews(tid);
+    const avg     = reviews.length ? (reviews.reduce((s,r)=>s+r.rating,0)/reviews.length).toFixed(1) : tour.rating;
+
+    return reviews.map(r => `
+        <div class="review-card">
+            <div class="review-top">
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar" style="background:var(--teal);">${r.name.charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div class="reviewer-name">${r.name}</div>
+                        <span class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+                    </div>
+                </div>
+                <span class="review-date">${r.date}</span>
+            </div>
+            <p class="review-text">${r.comment}</p>
+        </div>
+    `).join('') || '<p style="color:var(--gray);">Chưa có đánh giá nào. Hãy là người đầu tiên!</p>';
+}
+
+// ── Render full page ──────────────────────
+document.getElementById('detailContainer').innerHTML = `
+<!-- LEFT -->
+<div>
+    <div class="detail-img-placeholder">${tour.emoji}</div>
+
+    <div class="info-cards">
+        <div class="info-card"><div class="ic-label">📍 Điểm đến</div><div class="ic-value">${tour.dest}</div></div>
+        <div class="info-card"><div class="ic-label">⏱ Thời gian</div><div class="ic-value">${tour.duration} ngày</div></div>
+        <div class="info-card"><div class="ic-label">👥 Chỗ trống</div><div class="ic-value">${tour.spots} / ${tour.maxPeople} chỗ</div></div>
+        <div class="info-card"><div class="ic-label">🗂 Loại tour</div><div class="ic-value">${CAT_LABELS[tour.category]}</div></div>
+    </div>
+
+    <h2 style="font-size:1.8rem;margin-bottom:12px;">Giới thiệu tour</h2>
+    <p>${tour.desc}</p>
+
+    <h3 style="margin-top:28px;margin-bottom:16px;font-size:1.4rem;">📅 Lịch trình chi tiết</h3>
+    ${tour.schedule.map(s => `
+        <div class="itinerary-item">
+            <span class="itinerary-day">${s.day}</span>
+            <div class="itinerary-content">${s.content}</div>
+        </div>
+    `).join('')}
+
+    <h3 style="margin-top:28px;margin-bottom:12px;font-size:1.4rem;">✅ Bao gồm / ❌ Không bao gồm</h3>
+    <div class="include-list">
+        ${tour.includes.map(i => `<div class="include-item"><span>✅</span><span>${i}</span></div>`).join('')}
+        ${tour.excludes.map(i => `<div class="include-item"><span>❌</span><span>${i}</span></div>`).join('')}
+    </div>
+
+    <!-- Reviews -->
+    <div class="reviews-section" style="margin-top:40px;">
+        <h2 style="font-size:1.8rem;margin-bottom:20px;">Đánh giá của khách hàng</h2>
+        <div class="rating-summary">
+            <div class="rating-big">
+                <span class="rb-number">${tour.rating}</span>
+                <span class="stars-lg">${'★'.repeat(Math.round(tour.rating))}${'☆'.repeat(5-Math.round(tour.rating))}</span>
+                <div class="rb-total">${tour.reviews} đánh giá</div>
+            </div>
+            <div style="flex:1;font-size:0.88rem;color:var(--gray);">
+                Khách hàng đánh giá tour này rất cao. Đặc biệt được khen về chất lượng dịch vụ, hướng dẫn viên nhiệt tình và cảnh đẹp ấn tượng.
+            </div>
+        </div>
+
+        <div id="reviewsList">${renderReviews(tour.id)}</div>
+
+        <!-- Write review form -->
+        <div style="background:var(--cream);border-radius:var(--radius);padding:24px;margin-top:24px;">
+            <h3 style="margin-bottom:20px;font-size:1.4rem;">✍ Viết đánh giá của bạn</h3>
+            <form id="reviewForm" onsubmit="submitReview(event)">
+                <div class="form-group">
+                    <label class="form-label">Họ tên *</label>
+                    <input type="text" id="reviewName" class="form-control" placeholder="Nguyễn Văn A" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Số sao đánh giá *</label>
+                    <div class="star-input-group">
+                        <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                        <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                        <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                        <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                        <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nhận xét *</label>
+                    <textarea id="reviewComment" class="form-control" rows="3" placeholder="Chia sẻ trải nghiệm của bạn..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Gửi đánh giá ⭐</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- RIGHT: Booking widget -->
+<div>
+    <div class="booking-widget">
+        <div class="booking-widget-price">
+            <span class="bw-price-amount">${tour.price.toLocaleString('vi-VN')} ₫</span>
+            <div class="bw-price-note">/ người</div>
+        </div>
+
+        ${tour.spots > 0
+            ? `<div class="bw-available">✅ Còn ${tour.spots} chỗ trống</div>`
+            : `<div class="alert alert-error" style="text-align:center;">❌ Tour đã hết chỗ</div>`
+        }
+
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+            <input type="hidden" id="pricePerPerson" value="${tour.price}">
+            <input type="hidden" id="tourId" value="${tour.id}">
+
+            <div class="form-group">
+                <label class="form-label">📅 Ngày khởi hành *</label>
+                <input type="date" id="tourDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">👥 Số người * <small style="color:var(--gray);font-weight:400;">(tối đa ${tour.spots})</small></label>
+                <input type="number" id="numPeople" class="form-control" min="1" max="${tour.spots}" value="1" required oninput="calcTotal()">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phương thức thanh toán</label>
+                <select id="payMethod" class="form-control">
+                    <option value="bank">🏦 Chuyển khoản ngân hàng</option>
+                    <option value="cash">💵 Tiền mặt tại văn phòng</option>
+                    <option value="momo">📱 Ví MoMo</option>
+                    <option value="vnpay">💳 VNPay</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">📝 Ghi chú</label>
+                <textarea class="form-control" id="bookingNote" rows="2" placeholder="Yêu cầu đặc biệt..."></textarea>
+            </div>
+
+            <!-- Price breakdown -->
+            <div id="priceBreakdown" style="background:var(--cream);border-radius:10px;padding:14px;margin-bottom:12px;font-size:0.88rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="color:var(--gray);">Giá/người</span>
+                    <span>${tour.price.toLocaleString('vi-VN')} ₫</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="color:var(--gray);">Số người</span>
+                    <span id="pplDisplay">1</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="color:var(--gray);">Phí dịch vụ (2%)</span>
+                    <span id="feeDisplay">${Math.round(tour.price * 0.02).toLocaleString('vi-VN')} ₫</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border);font-weight:700;font-size:1rem;">
+                    <span style="color:var(--teal);">Tổng thanh toán</span>
+                    <span style="color:var(--orange);" id="totalDisplay">${Math.round(tour.price * 1.02).toLocaleString('vi-VN')} ₫</span>
+                </div>
+            </div>
+
+            ${tour.spots > 0 ? `<button type="submit" class="btn-book-now">🎒 Đặt tour ngay</button>` : ''}
+        </form>
+
+        <div class="booking-guarantees">
+            <div class="guarantee-item"><span class="gi-icon">✅</span> Xác nhận booking trong 24 giờ</div>
+            <div class="guarantee-item"><span class="gi-icon">🔄</span> Hủy miễn phí trước 7 ngày</div>
+            <div class="guarantee-item"><span class="gi-icon">🔒</span> Thanh toán an toàn, bảo mật</div>
+            <div class="guarantee-item"><span class="gi-icon">📞</span> Hỗ trợ 24/7 tận tình</div>
+        </div>
+    </div>
+</div>
+`;
+
+// ── Init date min ─────────────────────────
+const dateInput = document.getElementById('tourDate');
+if (dateInput) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+}
+
+// ── Price calculator ──────────────────────
+function calcTotal() {
+    const num   = parseInt(document.getElementById('numPeople').value) || 1;
+    const price = parseInt(document.getElementById('pricePerPerson').value) || 0;
+    const sub   = price * num;
+    const fee   = Math.round(sub * 0.02);
+    const total = sub + fee;
+
+    document.getElementById('pplDisplay').textContent   = num + ' người';
+    document.getElementById('feeDisplay').textContent   = fee.toLocaleString('vi-VN') + ' ₫';
+    document.getElementById('totalDisplay').textContent = total.toLocaleString('vi-VN') + ' ₫';
+}
+
+// ── Submit booking ────────────────────────
+function submitBooking(e) {
+    e.preventDefault();
+
+    const date    = document.getElementById('tourDate').value;
+    const num     = parseInt(document.getElementById('numPeople').value);
+    const note    = document.getElementById('bookingNote').value;
+    const method  = document.getElementById('payMethod');
+    const methodVal = method ? method.value : 'bank';
+    const methodText = method ? method.options[method.selectedIndex].text : 'Chuyển khoản';
+
+    // Validate
+    if (!date) { showToast('Vui lòng chọn ngày khởi hành', 'error'); return; }
+    const today = new Date().toISOString().split('T')[0];
+    if (date <= today) { showToast('Ngày khởi hành phải là ngày trong tương lai', 'error'); return; }
+    if (!num || num < 1) { showToast('Số người phải ít nhất là 1', 'error'); return; }
+    if (num > tour.spots) { showToast('Số người vượt quá chỗ còn lại (' + tour.spots + ' chỗ)', 'error'); return; }
+
+    const price = parseInt(document.getElementById('pricePerPerson').value);
+    const sub   = price * num;
+    const fee   = Math.round(sub * 0.02);
+    const total = sub + fee;
+    const code  = 'TV' + Date.now().toString().slice(-6);
+
+    // Save booking
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    bookings.unshift({
+        id:          Date.now(),
+        code:        code,
+        tourId:      tour.id,
+        tour:        tour.title,
+        dest:        tour.dest,
+        emoji:       tour.emoji,
+        date:        date,
+        people:      num,
+        priceEach:   price,
+        fee:         fee,
+        total:       total,
+        payMethod:   methodVal,
+        payText:     methodText,
+        note:        note,
+        status:      'pending',
+        created:     new Date().toLocaleDateString('vi-VN')
+    });
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+
+    // Redirect to success page
+    const params = new URLSearchParams({
+        code:   code,
+        tour:   tour.title,
+        dest:   tour.dest,
+        emoji:  tour.emoji,
+        date:   date,
+        people: num,
+        each:   price,
+        fee:    fee,
+        total:  total,
+        method: methodText,
+        note:   note
+    });
+    window.location.href = 'booking-success.html?' + params.toString();
+}
+
+// ── Submit review ─────────────────────────
+function submitReview(e) {
+    e.preventDefault();
+    const name    = document.getElementById('reviewName').value.trim();
+    const rInput  = document.querySelector('.star-input-group input:checked');
+    const comment = document.getElementById('reviewComment').value.trim();
+
+    if (!rInput) { showToast('Vui lòng chọn số sao đánh giá', 'error'); return; }
+    if (!comment) { showToast('Vui lòng nhập nhận xét', 'error'); return; }
+
+    const newReview = {
+        name,
+        rating: parseInt(rInput.value),
+        date: new Date().toLocaleDateString('vi-VN'),
+        comment
+    };
+
+    const stored = JSON.parse(localStorage.getItem('reviews_' + tour.id) || '[]');
+    stored.push(newReview);
+    localStorage.setItem('reviews_' + tour.id, JSON.stringify(stored));
+
+    document.getElementById('reviewsList').innerHTML = renderReviews(tour.id);
+    document.getElementById('reviewForm').reset();
+    document.querySelectorAll('.star-input-group label').forEach(l => l.style.color = '#ccc');
+    showToast('Cảm ơn bạn đã đánh giá! ⭐');
+}
+
+// Init star rating
+document.addEventListener('DOMContentLoaded', () => {
+    initStarRating();
+    calcTotal();
+});
+</script>
+</body>
+</html>

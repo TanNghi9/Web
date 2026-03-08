@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Tour Thành Công – TravelViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ── Success animation ── */
+        .success-wrapper {
+            min-height: calc(100vh - 68px);
+            background: linear-gradient(135deg, var(--cream) 0%, #dff0f4 100%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 48px 24px 60px;
+        }
+        .success-container { max-width: 680px; width: 100%; }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: popIn 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both;
+        }
+        @keyframes popIn {
+            from { opacity:0; transform: scale(0.7); }
+            to   { opacity:1; transform: scale(1); }
+        }
+
+        .success-icon-circle {
+            width: 96px;
+            height: 96px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 32px rgba(39,174,96,0.4);
+            animation: popIn 0.7s 0.1s cubic-bezier(0.175,0.885,0.32,1.275) both;
+        }
+
+        .success-header h1 {
+            font-size: 2.4rem;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+        .success-header p { color: var(--gray); font-size: 1rem; }
+
+        /* ── Booking card ── */
+        .booking-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(10,74,94,0.12);
+            overflow: hidden;
+            animation: slideUp 0.5s 0.2s ease both;
+        }
+        @keyframes slideUp {
+            from { opacity:0; transform: translateY(30px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        .booking-card-header {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .booking-card-header .tour-emoji {
+            font-size: 3.2rem;
+            line-height: 1;
+        }
+        .booking-card-header h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+        .booking-card-header p { color: rgba(255,255,255,0.75); font-size: 0.9rem; }
+
+        .booking-code-badge {
+            margin-left: auto;
+            background: var(--orange);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .booking-code-badge .code-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; opacity: 0.85; }
+        .booking-code-badge .code-value { font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; }
+
+        .booking-card-body { padding: 28px; }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.92rem;
+            gap: 12px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .ir-label {
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .info-row .ir-value { font-weight: 700; color: var(--text); text-align: right; }
+
+        /* ── Payment summary ── */
+        .payment-section {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .payment-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pay-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+        .pay-row.total {
+            border-top: 2px solid var(--border);
+            margin-top: 12px;
+            padding-top: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .pay-row.total .pay-amount { color: var(--orange); font-size: 1.3rem; }
+
+        /* ── Status badge ── */
+        .status-pending {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fef9e7;
+            color: #856404;
+            border: 1.5px solid #f4d03f;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .status-dot {
+            width: 8px; height: 8px;
+            background: #f4d03f;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        /* ── Action buttons ── */
+        .action-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+            animation: slideUp 0.5s 0.4s ease both;
+        }
+        .action-buttons .btn { flex: 1; min-width: 160px; justify-content: center; }
+
+        /* ── Print styles ── */
+        @media print {
+            .navbar, .footer, #backToTop, .action-buttons { display: none; }
+            .success-wrapper { padding: 0; background: white; }
+            .booking-card { box-shadow: none; border: 1px solid #ccc; }
+        }
+
+        /* ── Note box ── */
+        .note-box {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 0.88rem;
+            color: #0c5460;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="tours.html">Tour du lịch</a></li>
+            <li><a href="profile.html">Booking của tôi</a></li>
+            <li><a href="login.html" class="nav-btn-login">Đăng nhập</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="success-wrapper">
+    <div class="success-container">
+
+        <!-- Header -->
+        <div class="success-header">
+            <div class="success-icon-circle">🎉</div>
+            <h1>Đặt Tour Thành Công!</h1>
+            <p>Cảm ơn bạn đã tin tưởng TravelViet. Chúng tôi sẽ xác nhận booking trong vòng <strong>24 giờ</strong>.</p>
+        </div>
+
+        <!-- Main booking card -->
+        <div class="booking-card">
+
+            <!-- Card header -->
+            <div class="booking-card-header">
+                <span class="tour-emoji" id="bEmoji">✈</span>
+                <div>
+                    <h2 id="bTourName">Tour du lịch</h2>
+                    <p id="bDest">📍 Điểm đến</p>
+                </div>
+                <div class="booking-code-badge">
+                    <div class="code-label">MÃ BOOKING</div>
+                    <div class="code-value" id="bCode">–</div>
+                </div>
+            </div>
+
+            <!-- Card body -->
+            <div class="booking-card-body">
+
+                <!-- Trạng thái -->
+                <div style="margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                    <span class="status-pending"><span class="status-dot"></span> Chờ xác nhận</span>
+                    <span style="font-size:0.82rem;color:var(--gray);">Bạn sẽ nhận được email xác nhận sớm nhất</span>
+                </div>
+
+                <!-- Thông tin booking -->
+                <div>
+                    <div class="info-row">
+                        <span class="ir-label">📅 Ngày khởi hành</span>
+                        <span class="ir-value" id="bDate">–</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="ir-label">👥 Số người</span>
+                        <span class="ir-value" id="bPeople">–</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="ir-label">💳 Thanh toán</span>
+                        <span class="ir-value" id="bMethod">–</span>
+                    </div>
+                    <div class="info-row" id="noteRow" style="display:none;">
+                        <span class="ir-label">📝 Ghi chú</span>
+                        <span class="ir-value" id="bNote" style="max-width:300px;word-break:break-word;">–</span>
+                    </div>
+                </div>
+
+                <!-- Chi tiết thanh toán -->
+                <div class="payment-section">
+                    <h3>💰 Chi tiết thanh toán</h3>
+                    <div class="pay-row">
+                        <span>Giá tour / người</span>
+                        <span id="bPriceEach">–</span>
+                    </div>
+                    <div class="pay-row">
+                        <span>Số người</span>
+                        <span id="bPeopleCalc">–</span>
+                    </div>
+                    <div class="pay-row">
+                        <span>Tạm tính</span>
+                        <span id="bSubtotal">–</span>
+                    </div>
+                    <div class="pay-row">
+                        <span>Phí dịch vụ (2%)</span>
+                        <span id="bFee">–</span>
+                    </div>
+                    <div class="pay-row total">
+                        <span>💳 Tổng thanh toán</span>
+                        <span class="pay-amount" id="bTotal">–</span>
+                    </div>
+                </div>
+
+                <!-- Hướng dẫn thanh toán -->
+                <div id="payGuide"></div>
+
+                <!-- Note box -->
+                <div class="note-box">
+                    ℹ️ <strong>Lưu ý:</strong> Booking của bạn đang ở trạng thái <em>chờ xác nhận</em>. Vui lòng hoàn tất thanh toán theo hướng dẫn trên để xác nhận chỗ. Liên hệ <strong>0901 234 567</strong> nếu cần hỗ trợ.
+                </div>
+
+            </div><!-- end card body -->
+        </div><!-- end booking card -->
+
+        <!-- Action buttons -->
+        <div class="action-buttons">
+            <a href="profile.html" class="btn btn-teal btn-lg">📋 Xem booking của tôi</a>
+            <a href="tours.html" class="btn btn-outline btn-lg">🗺 Đặt thêm tour</a>
+            <button onclick="printPage()" class="btn btn-outline btn-lg" style="border-color:var(--gray);color:var(--gray);">🖨 In xác nhận</button>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-bottom" style="max-width:1200px;margin:0 auto;">
+        <span>© 2025 TravelViet.</span>
+        <span>CT214H – Web Programming Final Project</span>
+    </div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="../js/main.js"></script>
+<script>
+// Payment guide content per method
+const PAY_GUIDES = {
+    bank: `
+        <div style="background:#f0faf4;border:1.5px solid #27ae60;border-radius:12px;padding:18px;margin-top:4px;">
+            <h4 style="color:#1a7a45;margin-bottom:12px;font-size:1rem;">🏦 Hướng dẫn chuyển khoản ngân hàng</h4>
+            <div style="font-size:0.88rem;line-height:2;">
+                <b>Ngân hàng:</b> Vietcombank<br>
+                <b>Số tài khoản:</b> 1234 5678 9012 3456<br>
+                <b>Chủ tài khoản:</b> CÔNG TY TRAVELVIET<br>
+                <b>Nội dung CK:</b> <span style="color:var(--orange);font-weight:700;" id="bankRef">BOOKING-CODE</span><br>
+                <span style="color:#856404;">⚠ Vui lòng ghi đúng mã booking trong nội dung chuyển khoản</span>
+            </div>
+        </div>`,
+    cash: `
+        <div style="background:#fff8e1;border:1.5px solid #f4d03f;border-radius:12px;padding:18px;margin-top:4px;">
+            <h4 style="color:#856404;margin-bottom:12px;font-size:1rem;">💵 Thanh toán tiền mặt tại văn phòng</h4>
+            <div style="font-size:0.88rem;line-height:2;">
+                <b>Địa chỉ:</b> 123 Nguyễn Huệ, Quận 1, TP.HCM<br>
+                <b>Giờ làm việc:</b> 8:00 – 18:00 (Thứ 2 – Thứ 7)<br>
+                <b>Mang theo:</b> CMND/CCCD và mã booking<br>
+                <span style="color:#856404;">⚠ Vui lòng thanh toán trước ngày khởi hành ít nhất 3 ngày</span>
+            </div>
+        </div>`,
+    momo: `
+        <div style="background:#fce4ec;border:1.5px solid #e91e63;border-radius:12px;padding:18px;margin-top:4px;">
+            <h4 style="color:#880e4f;margin-bottom:12px;font-size:1rem;">📱 Thanh toán qua Ví MoMo</h4>
+            <div style="font-size:0.88rem;line-height:2;">
+                <b>Số MoMo:</b> 0901 234 567<br>
+                <b>Tên:</b> TRAVELVIET<br>
+                <b>Nội dung:</b> <span style="color:var(--orange);font-weight:700;" id="momoRef">BOOKING-CODE</span><br>
+                <span style="color:#880e4f;">⚠ Chụp màn hình giao dịch và gửi về Zalo: 0901 234 567</span>
+            </div>
+        </div>`,
+    vnpay: `
+        <div style="background:#e3f2fd;border:1.5px solid #1565c0;border-radius:12px;padding:18px;margin-top:4px;">
+            <h4 style="color:#0d47a1;margin-bottom:12px;font-size:1rem;">💳 Thanh toán qua VNPay</h4>
+            <div style="font-size:0.88rem;line-height:2;">
+                <b>Quét mã QR</b> hoặc thanh toán qua app VNPay<br>
+                <b>Mã đơn:</b> <span style="color:var(--orange);font-weight:700;" id="vnRef">BOOKING-CODE</span><br>
+                <span style="color:#0d47a1;">⚠ Giao dịch VNPay sẽ được xác nhận tự động sau 5 phút</span>
+            </div>
+        </div>`
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+    const p = new URLSearchParams(window.location.search);
+
+    const code    = p.get('code')   || ('TV' + Date.now().toString().slice(-6));
+    const tour    = p.get('tour')   || 'Tour du lịch';
+    const dest    = p.get('dest')   || '';
+    const emoji   = p.get('emoji')  || '✈';
+    const date    = p.get('date')   || '';
+    const people  = parseInt(p.get('people')) || 1;
+    const each    = parseInt(p.get('each'))   || 0;
+    const fee     = parseInt(p.get('fee'))    || 0;
+    const total   = parseInt(p.get('total'))  || 0;
+    const method  = p.get('method') || 'Chuyển khoản ngân hàng';
+    const note    = p.get('note')   || '';
+
+    const sub = each * people;
+
+    // Determine method key
+    let methodKey = 'bank';
+    if (method.includes('MoMo'))   methodKey = 'momo';
+    if (method.includes('VNPay'))  methodKey = 'vnpay';
+    if (method.includes('mặt'))    methodKey = 'cash';
+
+    // Fill header
+    document.getElementById('bEmoji').textContent    = emoji;
+    document.getElementById('bTourName').textContent = tour;
+    document.getElementById('bDest').textContent     = '📍 ' + dest;
+    document.getElementById('bCode').textContent     = code;
+
+    // Fill info rows
+    document.getElementById('bDate').textContent     = new Date(date).toLocaleDateString('vi-VN', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+    document.getElementById('bPeople').textContent   = people + ' người';
+    document.getElementById('bMethod').textContent   = method;
+
+    if (note) {
+        document.getElementById('noteRow').style.display = 'flex';
+        document.getElementById('bNote').textContent = note;
+    }
+
+    // Fill payment details
+    document.getElementById('bPriceEach').textContent  = each.toLocaleString('vi-VN') + ' ₫';
+    document.getElementById('bPeopleCalc').textContent = people + ' người';
+    document.getElementById('bSubtotal').textContent   = sub.toLocaleString('vi-VN') + ' ₫';
+    document.getElementById('bFee').textContent        = fee.toLocaleString('vi-VN') + ' ₫';
+    document.getElementById('bTotal').textContent      = total.toLocaleString('vi-VN') + ' ₫';
+
+    // Payment guide
+    let guide = PAY_GUIDES[methodKey] || PAY_GUIDES['bank'];
+    guide = guide.replace(/BOOKING-CODE/g, code);
+    document.getElementById('payGuide').innerHTML = guide;
+});
+
+function printPage() { window.print(); }
+</script>
+</body>
+</html>

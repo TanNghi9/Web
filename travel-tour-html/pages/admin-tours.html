@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tour – Admin TravelViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px; }
+        .modal-overlay.open { display:flex; }
+        .modal { background:white;border-radius:16px;padding:32px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+        .modal h3 { font-size:1.5rem;margin-bottom:20px; }
+        .form-2col { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="tours.html">Tours</a></li>
+            <li><a href="admin.html" style="color:var(--orange);">⚙ Admin</a></li>
+            <li><a href="login.html" class="nav-btn-login">Đăng xuất</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="admin-layout">
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-title">⚙ ADMIN PANEL</div>
+        <nav>
+            <a href="admin.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+            <a href="admin-tours.html" class="admin-nav-item active"><span class="nav-icon">🗺</span> Quản lý Tour</a>
+            <a href="admin-bookings.html" class="admin-nav-item"><span class="nav-icon">📋</span> Quản lý Booking</a>
+            <a href="admin-users.html" class="admin-nav-item"><span class="nav-icon">👥</span> Quản lý Users</a>
+            <a href="../index.html" class="admin-nav-item"><span class="nav-icon">←</span> Về trang chủ</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+            <h1 class="admin-page-title" style="margin:0;border:none;padding:0;">🗺 Quản lý Tour</h1>
+            <button class="btn btn-primary" onclick="openAddModal()">➕ Thêm tour mới</button>
+        </div>
+
+        <div id="tourAlert" style="display:none;" class="alert alert-success"></div>
+
+        <!-- Search -->
+        <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+            <input type="text" id="adminSearch" class="form-control" placeholder="Tìm tour..." style="max-width:300px;" oninput="renderToursTable()">
+            <select id="adminCatFilter" class="form-control" style="max-width:180px;" onchange="renderToursTable()">
+                <option value="">Tất cả danh mục</option>
+                <option value="beach">🏖️ Biển</option>
+                <option value="mountain">⛰️ Núi</option>
+                <option value="city">🏙️ Thành phố</option>
+                <option value="cultural">🏛️ Văn hóa</option>
+                <option value="cruise">🚢 Du thuyền</option>
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div style="overflow-x:auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên tour</th>
+                        <th>Điểm đến</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Chỗ còn</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="toursTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="toursPagination" style="margin-top:16px;"></div>
+    </main>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="tourModal">
+    <div class="modal">
+        <h3 id="modalTitle">➕ Thêm tour mới</h3>
+        <form id="tourForm" onsubmit="saveTour(event)">
+            <input type="hidden" id="editId">
+            <div class="form-2col">
+                <div class="form-group" style="grid-column:1/-1;">
+                    <label class="form-label">Tên tour *</label>
+                    <input type="text" id="fTitle" class="form-control" placeholder="Tên tour..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Điểm đến *</label>
+                    <input type="text" id="fDest" class="form-control" placeholder="VD: Quảng Ninh" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Danh mục</label>
+                    <select id="fCat" class="form-control">
+                        <option value="beach">🏖️ Biển</option>
+                        <option value="mountain">⛰️ Núi</option>
+                        <option value="city">🏙️ Thành phố</option>
+                        <option value="cultural">🏛️ Văn hóa</option>
+                        <option value="adventure">🧗 Phiêu lưu</option>
+                        <option value="cruise">🚢 Du thuyền</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Giá (₫) *</label>
+                    <input type="number" id="fPrice" class="form-control" min="0" placeholder="3500000" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Thời gian (ngày)</label>
+                    <input type="number" id="fDuration" class="form-control" min="1" value="3">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Số chỗ tối đa</label>
+                    <input type="number" id="fMaxPeople" class="form-control" min="1" value="20">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Trạng thái</label>
+                    <select id="fStatus" class="form-control">
+                        <option value="active">✅ Hoạt động</option>
+                        <option value="inactive">❌ Ẩn</option>
+                    </select>
+                </div>
+                <div class="form-group" style="grid-column:1/-1;">
+                    <label class="form-label">Mô tả</label>
+                    <textarea id="fDesc" class="form-control" rows="3" placeholder="Mô tả ngắn về tour..."></textarea>
+                </div>
+                <div class="form-group" style="grid-column:1/-1;">
+                    <label class="form-label">Upload ảnh đại diện</label>
+                    <input type="file" id="fImage" class="form-control" accept="image/*" onchange="previewImg(this)">
+                    <img id="imgPreview" style="margin-top:10px;max-height:150px;border-radius:8px;display:none;">
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:8px;">
+                <button type="submit" class="btn btn-primary">💾 Lưu</button>
+                <button type="button" class="btn btn-outline" onclick="closeModal()">Huỷ</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="../js/main.js"></script>
+<script>
+// Initial data
+const DEFAULT_TOURS = [
+    { id:1, title:'Khám Phá Hạ Long Bay', dest:'Quảng Ninh', category:'cruise', price:3500000, duration:3, maxPeople:20, spots:15, status:'active', desc:'Vịnh Hạ Long kỳ vĩ với du thuyền và kayak.' },
+    { id:2, title:'Phố Cổ Hội An Enchanting', dest:'Quảng Nam', category:'cultural', price:1800000, duration:2, maxPeople:25, spots:20, status:'active', desc:'Phố cổ Hội An thơ mộng với đèn lồng lung linh.' },
+    { id:3, title:'Trekking Sapa Mây Bay', dest:'Lào Cai', category:'mountain', price:4200000, duration:4, maxPeople:15, spots:10, status:'active', desc:'Đỉnh núi hùng vĩ Sapa với ruộng bậc thang.' },
+    { id:4, title:'Đà Nẵng – Bà Nà Hills', dest:'Đà Nẵng', category:'city', price:3200000, duration:3, maxPeople:30, spots:25, status:'active', desc:'Cầu Vàng nổi tiếng và Bà Nà Hills.' },
+    { id:5, title:'Phú Quốc Paradise Island', dest:'Kiên Giang', category:'beach', price:6500000, duration:5, maxPeople:20, spots:18, status:'active', desc:'Đảo ngọc Phú Quốc với bãi biển xanh ngọc.' },
+    { id:6, title:'Mũi Né Cát Vàng', dest:'Bình Thuận', category:'beach', price:2100000, duration:2, maxPeople:20, spots:12, status:'active', desc:'Đồi cát vàng và lướt ván diều.' },
+    { id:7, title:'Ninh Bình – Tràng An', dest:'Ninh Bình', category:'cultural', price:1600000, duration:2, maxPeople:25, spots:20, status:'active', desc:'Di sản Tràng An với hang động kỳ bí.' },
+    { id:8, title:'Côn Đảo Hoang Sơ', dest:'Bà Rịa – Vũng Tàu', category:'beach', price:7200000, duration:4, maxPeople:12, spots:8, status:'active', desc:'Côn Đảo hoang sơ và lặn biển ngắm san hô.' },
+];
+
+function getTours() {
+    const stored = localStorage.getItem('adminTours');
+    return stored ? JSON.parse(stored) : DEFAULT_TOURS;
+}
+
+function saveTours(tours) {
+    localStorage.setItem('adminTours', JSON.stringify(tours));
+}
+
+const catLabels = { beach:'🏖️ Biển', mountain:'⛰️ Núi', city:'🏙️ Thành phố', cultural:'🏛️ Văn hóa', adventure:'🧗 Phiêu lưu', cruise:'🚢 Du thuyền' };
+
+let adminPage = 1;
+const ADMIN_PER_PAGE = 6;
+
+function renderToursTable() {
+    adminPage = 1;
+    _renderPage();
+}
+
+function _renderPage() {
+    const search = (document.getElementById('adminSearch').value || '').toLowerCase();
+    const cat    = document.getElementById('adminCatFilter').value;
+
+    let tours = getTours().filter(t => {
+        const matchSearch = !search || t.title.toLowerCase().includes(search) || t.dest.toLowerCase().includes(search);
+        const matchCat    = !cat || t.category === cat;
+        return matchSearch && matchCat;
+    });
+
+    const total = tours.length;
+    const totalPages = Math.ceil(total / ADMIN_PER_PAGE);
+    const paged = tours.slice((adminPage-1)*ADMIN_PER_PAGE, adminPage*ADMIN_PER_PAGE);
+
+    const tbody = document.getElementById('toursTableBody');
+    tbody.innerHTML = paged.map(t => `
+        <tr>
+            <td>${t.id}</td>
+            <td><strong>${t.title}</strong></td>
+            <td>📍 ${t.dest}</td>
+            <td>${catLabels[t.category] || t.category}</td>
+            <td style="color:var(--orange);font-weight:700;">${t.price.toLocaleString('vi-VN')} ₫</td>
+            <td>${t.spots}/${t.maxPeople}</td>
+            <td><span class="badge ${t.status==='active'?'badge-confirmed':'badge-cancelled'}">${t.status==='active'?'✅ Hoạt động':'❌ Ẩn'}</span></td>
+            <td>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <button class="btn btn-teal btn-sm" onclick="openEditModal(${t.id})">✏ Sửa</button>
+                    <button class="btn btn-outline btn-sm" onclick="toggleStatus(${t.id})">${t.status==='active'?'👁 Ẩn':'✅ Hiện'}</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteTour(${t.id})">🗑</button>
+                </div>
+            </td>
+        </tr>
+    `).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--gray);padding:32px;">Không tìm thấy tour nào</td></tr>';
+
+    // Pagination
+    const pgEl = document.getElementById('toursPagination');
+    if (totalPages <= 1) { pgEl.innerHTML = ''; return; }
+    let pgHtml = `<span class="${adminPage===1?'pg-disabled':''}" onclick="goAdminPage(${adminPage-1})">←</span>`;
+    for (let i=1; i<=totalPages; i++) pgHtml += `<span class="${i===adminPage?'pg-active':''}" onclick="goAdminPage(${i})">${i}</span>`;
+    pgHtml += `<span class="${adminPage===totalPages?'pg-disabled':''}" onclick="goAdminPage(${adminPage+1})">→</span>`;
+    pgEl.innerHTML = pgHtml;
+}
+
+function goAdminPage(p) {
+    const tours = getTours();
+    const total = Math.ceil(tours.length / ADMIN_PER_PAGE);
+    if (p < 1 || p > total) return;
+    adminPage = p;
+    _renderPage();
+}
+
+function showAlert(msg, type='success') {
+    const el = document.getElementById('tourAlert');
+    el.className = 'alert alert-' + type;
+    el.textContent = msg;
+    el.style.display = 'flex';
+    setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function openAddModal() {
+    document.getElementById('modalTitle').textContent = '➕ Thêm tour mới';
+    document.getElementById('tourForm').reset();
+    document.getElementById('editId').value = '';
+    document.getElementById('imgPreview').style.display = 'none';
+    document.getElementById('tourModal').classList.add('open');
+}
+
+function openEditModal(id) {
+    const tours = getTours();
+    const t = tours.find(x => x.id === id);
+    if (!t) return;
+    document.getElementById('modalTitle').textContent = '✏ Sửa tour #' + id;
+    document.getElementById('editId').value = id;
+    document.getElementById('fTitle').value = t.title;
+    document.getElementById('fDest').value = t.dest;
+    document.getElementById('fCat').value = t.category;
+    document.getElementById('fPrice').value = t.price;
+    document.getElementById('fDuration').value = t.duration;
+    document.getElementById('fMaxPeople').value = t.maxPeople;
+    document.getElementById('fStatus').value = t.status;
+    document.getElementById('fDesc').value = t.desc || '';
+    document.getElementById('imgPreview').style.display = 'none';
+    document.getElementById('tourModal').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('tourModal').classList.remove('open');
+}
+
+function saveTour(e) {
+    e.preventDefault();
+    const tours = getTours();
+    const editId = document.getElementById('editId').value;
+    const data = {
+        title: document.getElementById('fTitle').value.trim(),
+        dest: document.getElementById('fDest').value.trim(),
+        category: document.getElementById('fCat').value,
+        price: parseInt(document.getElementById('fPrice').value),
+        duration: parseInt(document.getElementById('fDuration').value),
+        maxPeople: parseInt(document.getElementById('fMaxPeople').value),
+        status: document.getElementById('fStatus').value,
+        desc: document.getElementById('fDesc').value.trim(),
+    };
+
+    if (editId) {
+        const idx = tours.findIndex(t => t.id == editId);
+        if (idx !== -1) {
+            tours[idx] = { ...tours[idx], ...data };
+            showAlert('✅ Đã cập nhật tour thành công!');
+        }
+    } else {
+        const newId = Math.max(...tours.map(t => t.id), 0) + 1;
+        tours.push({ id: newId, spots: data.maxPeople, ...data });
+        showAlert('✅ Đã thêm tour mới thành công!');
+    }
+
+    saveTours(tours);
+    closeModal();
+    _renderPage();
+}
+
+function deleteTour(id) {
+    if (!confirm('Bạn có chắc muốn xoá tour này?')) return;
+    const tours = getTours().filter(t => t.id !== id);
+    saveTours(tours);
+    showAlert('✅ Đã xoá tour.', 'success');
+    _renderPage();
+}
+
+function toggleStatus(id) {
+    const tours = getTours();
+    const t = tours.find(x => x.id === id);
+    if (t) { t.status = t.status === 'active' ? 'inactive' : 'active'; }
+    saveTours(tours);
+    showAlert('✅ Đã cập nhật trạng thái.');
+    _renderPage();
+}
+
+function previewImg(input) {
+    const preview = document.getElementById('imgPreview');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Close modal on overlay click
+document.getElementById('tourModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+document.addEventListener('DOMContentLoaded', _renderPage);
+</script>
+</body>
+</html>

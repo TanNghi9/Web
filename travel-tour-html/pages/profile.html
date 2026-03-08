@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking của tôi – TravelViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="tours.html">Tour du lịch</a></li>
+            <li><a href="profile.html" class="active">Booking của tôi</a></li>
+            <li><a href="login.html" class="nav-btn-login">Đăng nhập</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="profile-hero">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Trang chủ</a>
+            <span class="breadcrumb-sep">/</span>
+            <span>Hồ sơ</span>
+        </div>
+        <h1 style="color:white;">Tài khoản của tôi</h1>
+    </div>
+</div>
+
+<div class="profile-content">
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="profile-avatar" id="userAvatar">U</div>
+        <div>
+            <h3 id="userName" style="margin-bottom:4px;">Người dùng</h3>
+            <p id="userEmail" style="color:var(--gray);font-size:0.9rem;margin:0;">user@email.com</p>
+            <div style="margin-top:8px;">
+                <span class="badge badge-confirmed" id="userRole">Member</span>
+            </div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:10px;">
+            <a href="tours.html" class="btn btn-primary btn-sm">+ Đặt tour mới</a>
+        </div>
+    </div>
+
+    <!-- Alert placeholder -->
+    <div id="cancelAlert" style="display:none;" class="alert alert-success">✅ Đã huỷ booking thành công.</div>
+
+    <!-- Booking History -->
+    <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+            <h2 style="font-size:1.8rem;margin:0;">Lịch sử đặt tour</h2>
+            <!-- Filter bookings -->
+            <select id="statusFilter" onchange="renderBookings()" style="border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:0.88rem;outline:none;">
+                <option value="">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="confirmed">Đã xác nhận</option>
+                <option value="cancelled">Đã huỷ</option>
+            </select>
+        </div>
+
+        <div id="bookingList"></div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="bookingPagination"></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a href="../index.html" class="logo"><span class="logo-plane">✈</span> TravelViet</a>
+            <p>Khám phá vẻ đẹp Việt Nam cùng chúng tôi.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Liên kết</h5>
+            <ul class="footer-links">
+                <li><a href="../index.html">Trang chủ</a></li>
+                <li><a href="tours.html">Tour du lịch</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Liên hệ</h5>
+            <div class="footer-contact-item">📞 0901 234 567</div>
+            <div class="footer-contact-item">✉ info@travelviet.vn</div>
+        </div>
+        <div class="footer-col">
+            <h5>CT214H</h5>
+            <div class="footer-contact-item">Web Programming</div>
+            <div class="footer-contact-item">Final Project</div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 TravelViet.</span>
+        <span>CT214H – Web Programming</span>
+    </div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="../js/main.js"></script>
+<script>
+// Seed sample bookings if none
+function seedBookings() {
+    const existing = JSON.parse(localStorage.getItem('bookings') || '[]');
+    if (existing.length === 0) {
+        const samples = [
+            { id: 1001, tour: 'Khám Phá Hạ Long Bay', dest: 'Quảng Ninh', date: '2025-06-15', people: 2, total: 7000000, status: 'confirmed', created: '01/03/2025' },
+            { id: 1002, tour: 'Phú Quốc Paradise Island', dest: 'Kiên Giang', date: '2025-07-20', people: 3, total: 19500000, status: 'pending', created: '05/03/2025' },
+            { id: 1003, tour: 'Phố Cổ Hội An', dest: 'Quảng Nam', date: '2025-05-10', people: 2, total: 3600000, status: 'confirmed', created: '10/02/2025' },
+            { id: 1004, tour: 'Trekking Sapa', dest: 'Lào Cai', date: '2025-08-05', people: 1, total: 4200000, status: 'pending', created: '20/02/2025' },
+            { id: 1005, tour: 'Đà Nẵng – Bà Nà Hills', dest: 'Đà Nẵng', date: '2025-06-01', people: 4, total: 12800000, status: 'cancelled', created: '15/01/2025' },
+        ];
+        localStorage.setItem('bookings', JSON.stringify(samples));
+    }
+}
+
+const ITEMS_PER_PAGE = 4;
+let currentPage = 1;
+
+function getFilteredBookings() {
+    const filter = document.getElementById('statusFilter').value;
+    const all = JSON.parse(localStorage.getItem('bookings') || '[]');
+    return filter ? all.filter(b => b.status === filter) : all;
+}
+
+function cancelBooking(id) {
+    if (!confirm('Bạn có chắc muốn huỷ booking này?')) return;
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const b = bookings.find(x => x.id == id);
+    if (b && b.status === 'pending') {
+        b.status = 'cancelled';
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        document.getElementById('cancelAlert').style.display = 'flex';
+        setTimeout(() => document.getElementById('cancelAlert').style.display = 'none', 3000);
+        renderBookings();
+    }
+}
+
+function renderBookings() {
+    currentPage = 1;
+    const bookings = getFilteredBookings();
+    renderPage(bookings);
+}
+
+function renderPage(bookings) {
+    const total = bookings.length;
+    const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paged = bookings.slice(start, start + ITEMS_PER_PAGE);
+    const container = document.getElementById('bookingList');
+
+    if (total === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon">🗺</span>
+                <h3>Chưa có booking nào</h3>
+                <p>Hãy khám phá các tour và đặt ngay!</p>
+                <a href="tours.html" class="btn btn-teal">Khám phá tour</a>
+            </div>`;
+        document.getElementById('bookingPagination').innerHTML = '';
+        return;
+    }
+
+    const statusBadge = {
+        pending:   '<span class="badge badge-pending">⏳ Chờ xác nhận</span>',
+        confirmed: '<span class="badge badge-confirmed">✅ Đã xác nhận</span>',
+        cancelled: '<span class="badge badge-cancelled">❌ Đã huỷ</span>',
+    };
+
+    let html = '<div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Mã</th><th>Tour</th><th>Ngày đi</th><th>Số người</th><th>Tổng tiền</th><th>Trạng thái</th><th>Ngày đặt</th><th>Thao tác</th></tr></thead><tbody>';
+
+    paged.forEach(b => {
+        const cancelBtn = b.status === 'pending'
+            ? `<button class="btn btn-danger btn-sm" onclick="cancelBooking(${b.id})">Huỷ</button>`
+            : '–';
+
+        html += `<tr>
+            <td><strong>#${String(b.id).padStart(6,'0')}</strong></td>
+            <td>
+                <strong style="color:var(--teal);">${b.tour}</strong><br>
+                <small style="color:var(--gray);">📍 ${b.dest}</small>
+            </td>
+            <td>${new Date(b.date).toLocaleDateString('vi-VN')}</td>
+            <td>${b.people} người</td>
+            <td style="font-weight:700;color:var(--orange);">${b.total.toLocaleString('vi-VN')} ₫</td>
+            <td>${statusBadge[b.status] || b.status}</td>
+            <td style="color:var(--gray);font-size:0.85rem;">${b.created}</td>
+            <td>${cancelBtn}</td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+
+    // Render pagination
+    const paginationEl = document.getElementById('bookingPagination');
+    if (totalPages <= 1) { paginationEl.innerHTML = ''; return; }
+
+    let pgHtml = `<span class="${currentPage === 1 ? 'pg-disabled' : ''}" onclick="gotoPage(${currentPage-1})">←</span>`;
+    for (let i = 1; i <= totalPages; i++) {
+        pgHtml += `<span class="${i === currentPage ? 'pg-active' : ''}" onclick="gotoPage(${i})">${i}</span>`;
+    }
+    pgHtml += `<span class="${currentPage === totalPages ? 'pg-disabled' : ''}" onclick="gotoPage(${currentPage+1})">→</span>`;
+    paginationEl.innerHTML = pgHtml;
+}
+
+function gotoPage(page) {
+    const total = getFilteredBookings().length;
+    const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderPage(getFilteredBookings());
+}
+
+// Load user info
+document.addEventListener('DOMContentLoaded', function() {
+    seedBookings();
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (user.name || user.fullName) {
+        const name = user.name || user.fullName || 'Người dùng';
+        document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+        document.getElementById('userName').textContent = name;
+        document.getElementById('userEmail').textContent = user.email || '';
+        if (user.role === 'admin') {
+            document.getElementById('userRole').textContent = '⚙ Administrator';
+            document.getElementById('userRole').className = 'badge badge-confirmed';
+        }
+    }
+    renderBookings();
+});
+</script>
+</body>
+</html>
